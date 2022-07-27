@@ -1,0 +1,27 @@
+#!/bin/bash --login
+
+#SBATCH --time=00:59:59
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=1g
+#SBATCH --job-name MABE2_logic9 
+#SBATCH --array=1-10
+
+module purge
+module load GCC/10.3.0
+
+BASE_MABE_DIR=/mnt/home/fergu358/research/mabe2/avida_merge
+BASE_SCRATCH_DIR=/mnt/gs18/scratch/users/fergu358/logic_9/timing_tests
+JOB_SCRATCH_DIR=${BASE_SCRATCH_DIR}/${SLURM_ARRAY_TASK_ID}
+
+mkdir -p ${JOB_SCRATCH_DIR}
+cd ${JOB_SCRATCH_DIR}
+cp ${BASE_MABE_DIR}/build/MABE .
+cp ${BASE_MABE_DIR}/settings/logic_9.mabe .
+cp ${BASE_MABE_DIR}/build/ancestor_default.org .
+
+time ./MABE -f ./logic_9.mabe -s random_seed=${SLURM_ARRAY_TASK_ID}
+
+
+scontrol show job $SLURM_JOB_ID
