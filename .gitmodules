@@ -1,0 +1,4 @@
+[submodule "MABE2"]
+	path = MABE2
+	url = git@github.com:FergusonAJ/MABE2
+  branch = doors
