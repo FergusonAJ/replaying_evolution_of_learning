@@ -86,9 +86,16 @@ mkdir -p \${SCRATCH_JOB_DIR}/phylo
 cd \${SCRATCH_JOB_DIR}
 
 # Run!
-time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/doors.mabe -s random_seed=\${SEED}
+time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=\${SEED}
 #Rscript ./final_org_check.R
 #Rscript ./summarize_data.R
+
+# Analyze final dominant org
+Rscript \${SCRATCH_FILE_DIR}/phylo_analysis.R
+DOMINANT_GENOME=\$(cat final_dominant_char.org)
+python3 \${SCRATCH_FILE_DIR}/genome_conversion.py -c \${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
+time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=\${SEED}
+
 
 
 scontrol show job \$SLURM_JOB_ID
