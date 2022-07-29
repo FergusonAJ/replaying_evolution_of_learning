@@ -86,7 +86,7 @@ mkdir -p \${SCRATCH_JOB_DIR}/phylo
 cd \${SCRATCH_JOB_DIR}
 
 # Run!
-time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/doors.mabe -s random_seed=\${SEED}
+time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=\${SEED}
 #Rscript ./final_org_check.R
 #Rscript ./summarize_data.R
 
