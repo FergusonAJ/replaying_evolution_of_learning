@@ -2,7 +2,16 @@ rm(list = ls())
 
 library(stringr)
 
-df = read.csv('phylo/phylogeny_manual_250000.csv')
+# If we passed a value, use it for the final update
+final_update = 250000
+args = commandArgs(trailingOnly=TRUE)
+if(length(args) > 0){
+    final_update = args[1]
+}
+
+filename = paste0('phylo/phylogeny_manual_', final_update, '.csv')
+print(paste0('Extracting dominant org and lineage from file: ', filename))
+df = read.csv(filename)
 df$ancestor_list = stringr::str_remove(df$ancestor_list, '\\[')
 df$ancestor_list = stringr::str_remove(df$ancestor_list, '\\]')
 df$genome = NA
