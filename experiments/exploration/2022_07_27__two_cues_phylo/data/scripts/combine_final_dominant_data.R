@@ -13,7 +13,7 @@ df = NA
 
 for(i in 1:100){
     print(i)
-    filename = paste0(reps_dir, '/', i, '/single_org_fitness.csv')
+    filename = paste0(reps_dir, '/', i, '/final_dominant_org_fitness.csv')
     if(!file.exists(filename)){
         next
     }
