@@ -6,10 +6,15 @@ source('../shared_files/constant_vars.R')
 for(seed in 1:100){
   input_filename = paste0('../data/reps/', seed, '/dominant_lineage_summary.csv') 
   if(!file.exists(input_filename)){
+    print(paste0('File does not exist: ', input_filename))
+    next
+  }
+  df = read.csv(input_filename)
+  if(nrow(df) <= 1){
+    print(paste0('File is empty or corrupted: ', input_filename))
     next
   }
   print(paste0('Plotting seed: ', seed))
-  df = read.csv(input_filename)
   plot_dir = paste0('../plots/reps/', seed)
   if(!dir.exists(plot_dir)) dir.create(plot_dir, recursive = T)
   
