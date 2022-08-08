@@ -3,7 +3,12 @@ rm(list = ls())
 # Load libraries and local helper files
 library(ggplot2)
 library(dplyr)
-source('./constant_vars.R')
+args = commandArgs(trailingOnly=TRUE)
+if(length(args) > 0){
+  source(paste0(args[1], '/constant_vars.R'))
+} else{
+  source('./constant_vars.R')
+}
 
 
 plot_masked_data = function(data, mask, title){
@@ -37,15 +42,16 @@ classify_individual_trials = function(df){
   
   # Classify
   df$trial_classification = trial_class_none 
-  df$trial_classification[df$accuracy == 1] = trial_class_perfect
-  df$trial_classification[df$correct_doors < 25] = trial_class_small
-  df$trial_classification[df$accuracy == 0] = trial_class_zero
-  df$trial_classification[df$accuracy > 0.98 & df$incorrect_doors <= 1] = trial_class_learning_optimal
-  df$trial_classification[df$accuracy > 0.90 & df$incorrect_doors <= (df$correct_doors * 0.1)] = trial_class_learning_suboptimal
-  df$trial_classification[df$doors_incorrect_2 <= 1 & df$doors_incorrect_1 >= df$doors_correct_2 & df$doors_incorrect_1 <= (df$doors_correct_2 + 1)] = trial_class_error_correction_naive_1
-  df$trial_classification[df$doors_incorrect_1 <= 1 & df$doors_incorrect_2 >= df$doors_correct_1 & df$doors_incorrect_2 <= (df$doors_correct_1 + 1)] = trial_class_error_correction_naive_2
-  df$trial_classification[df$doors_incorrect_2 <= 1 & df$trial_classification == trial_class_none] = trial_class_error_correction_better_1
-  df$trial_classification[df$doors_incorrect_1 <= 1 & df$trial_classification == trial_class_none] = trial_class_error_correction_better_2
+  df$trial_classification[df$trial_classification == trial_class_none & df$accuracy == 1] = trial_class_perfect
+  df$trial_classification[df$trial_classification == trial_class_none & df$correct_doors < 25] = trial_class_small
+  df$trial_classification[df$trial_classification == trial_class_none & df$accuracy == 0] = trial_class_zero
+  df$trial_classification[df$trial_classification == trial_class_none & df$accuracy > 0.98 & df$incorrect_doors <= 1] = trial_class_learning_optimal
+  df$trial_classification[df$trial_classification == trial_class_none & df$accuracy > 0.90 & df$incorrect_doors <= (df$correct_doors * 0.1)] = trial_class_learning_suboptimal
+  df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_2 <= 1 & df$doors_incorrect_1 >= df$doors_correct_2 & df$doors_incorrect_1 <= (df$doors_correct_2 + 1)] = trial_class_error_correction_naive_1
+  df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_1 <= 1 & df$doors_incorrect_2 >= df$doors_correct_1 & df$doors_incorrect_2 <= (df$doors_correct_1 + 1)] = trial_class_error_correction_naive_2
+  df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_2 <= 1] = trial_class_error_correction_better_1
+  df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_1 <= 1] = trial_class_error_correction_better_2
+  df$trial_classification[df$trial_classification == trial_class_none & df$doors_correct_0 >= df$doors_taken_0 - 1 & df$doors_incorrect_1 > 1 & df$doors_correct_1 > 0 & df$doors_incorrect_2 > 1 & df$doors_correct_2 > 0] = trial_class_error_correction_split
   df$trial_classification[df$correct_doors < 25] = trial_class_small
   df$trial_classification[df$df$incorrect_doors > 0 & df$doors_correct_0 == 0] = trial_class_trapped
   df$trial_classification[df$exit_rooms >= 2 * df$door_rooms] = trial_class_trapped
@@ -65,8 +71,7 @@ classify_seeds = function(df){
   df_grouped = NA
   if('depth' %in% colnames(df_tmp)){
     df_grouped = dplyr::group_by(df_tmp, depth, seed)
-  }
-  else{
+  } else{
     df_grouped = dplyr::group_by(df_tmp, seed)
   }
   df_summary = dplyr::summarize(df_grouped, 
@@ -80,18 +85,22 @@ classify_seeds = function(df){
                                 (!!rlang::sym(trial_class_error_correction_naive_2)) := sum(!! rlang::sym(trial_class_error_correction_naive_2)),
                                 (!!rlang::sym(trial_class_error_correction_better_1)) := sum(!! rlang::sym(trial_class_error_correction_better_1)),
                                 (!!rlang::sym(trial_class_error_correction_better_2)) := sum(!! rlang::sym(trial_class_error_correction_better_2)),
+                                (!!rlang::sym(trial_class_error_correction_split)) := sum(!! rlang::sym(trial_class_error_correction_split)),
                                 (!!rlang::sym(trial_class_trapped)) := sum(!!rlang::sym(trial_class_trapped)),
                                 (!!rlang::sym(trial_class_small)) := sum(!! rlang::sym(trial_class_small)),
                                 )
   # Create helper variables
-  df_summary$all_learning = df_summary$learning_optimal + df_summary$learning_suboptimal
-  df_summary$all_error_correction = df_summary$naive_error_correction_lead_1 + df_summary$naive_error_correction_lead_2 + df_summary$better_error_correction_lead_1 + df_summary$better_error_correction_lead_2
+  df_summary$all_learning = df_summary$learning_optimal + df_summary$learning_suboptimal + df_summary$perfect
+  df_summary$all_error_correction = df_summary$naive_error_correction_lead_1 + df_summary$naive_error_correction_lead_2 + df_summary$better_error_correction_lead_1 + df_summary$better_error_correction_lead_2 + df_summary$split_error_correction
+  df_summary$all_failed = df_summary$trapped + df_summary$small
   # Classify
   df_summary$seed_classification = seed_class_other
   df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_learning == df_summary$num_trials,]$seed_classification = seed_class_learning  
   df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_error_correction == df_summary$num_trials,]$seed_classification = seed_class_error_correction
-  df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_learning > 0 & df_summary$all_learning + df_summary$trapped == df_summary$num_trials,]$seed_classification = seed_class_bet_hedged_learning
-  df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_error_correction > 0 & df_summary$all_error_correction + df_summary$trapped == df_summary$num_trials,]$seed_classification = seed_class_bet_hedged_error_correction
+  df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_learning > 0 & df_summary$all_learning + df_summary$all_failed == df_summary$num_trials,]$seed_classification = seed_class_bet_hedged_learning
+  df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_error_correction > 0 & df_summary$all_error_correction + df_summary$all_failed == df_summary$num_trials,]$seed_classification = seed_class_bet_hedged_error_correction
+  df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_error_correction > 0 & df_summary$all_learning > 0 & df_summary$all_error_correction + df_summary$all_learning + df_summary$all_failed == df_summary$num_trials,]$seed_classification = seed_class_bet_hedged_mixed
+  df_summary[df_summary$seed_classification == seed_class_other & df_summary$small > 0,]$seed_classification = seed_class_small
   
   # Add seed classification to original data frame 
   df$seed_classification = seed_class_other
@@ -103,12 +112,12 @@ classify_seeds = function(df){
         df[depth_mask & df$seed == seed,]$seed_classification = df_summary[summary_depth_mask & df_summary$seed == seed,]$seed_classification
       }
     }
-  }
-  else{
+  } else{
     for(seed in unique(df_summary$seed)){
       df[df$seed == seed,]$seed_classification = df_summary[df_summary$seed == seed,]$seed_classification
     }
   }
+  df$seed_classification_factor = factor(df$seed_classification, levels = seed_classifcation_order_vec)
   return(df)
 }
 
@@ -120,8 +129,7 @@ summarize_final_dominant_org_data = function(df){
   df_grouped = NA
   if('depth' %in% colnames(df)){
     df_grouped = dplyr::group_by(df, depth, seed)
-  }
-  else{
+  } else{
     df_grouped = dplyr::group_by(df, seed)
   }
   df_summary = dplyr::summarize(df_grouped, count = dplyr::n(), 
