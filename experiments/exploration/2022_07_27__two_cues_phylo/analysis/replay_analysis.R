@@ -2,8 +2,8 @@ rm(list = ls())
 
 library(ggplot2)
 library(dplyr)
-source('./constant_vars.R')
-source('./shared_funcs.R')
+source('../shared_files/constant_vars.R')
+source('../shared_files/shared_funcs.R')
 
 for(seed in c(7,69,82)){
   cat('Seed: ', seed, '\n')
