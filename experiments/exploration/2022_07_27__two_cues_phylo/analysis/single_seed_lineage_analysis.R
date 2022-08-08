@@ -1,10 +1,9 @@
 rm(list = ls())
 
 library(ggplot2)
-source('./constant_vars.R')
-source('./shared_funcs.R')
+source('../shared_files/constant_vars.R')
 
-for(seed in 93:100){
+for(seed in 1:100){
   input_filename = paste0('../data/reps/', seed, '/dominant_lineage_summary.csv') 
   if(!file.exists(input_filename)){
     next
