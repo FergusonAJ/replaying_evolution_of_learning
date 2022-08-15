@@ -184,12 +184,3 @@ summarize_classifications = function(df_summary){
   classification_summary$seed_classification_factor = factor(classification_summary$seed_classification, levels = seed_classifcation_order_vec)
   return(classification_summary)
 }
-
-## Load data
-df = read.csv('../data/combined_final_dominant_data.csv')
-df = classify_individual_trials(df)
-df = classify_seeds(df)
-df_summary = summarize_final_dominant_org_data(df)
-classification_summary = summarize_classifications(df_summary)
-#unique(df$trial_classification)
-
