@@ -10,8 +10,8 @@ if(length(args) != 2){
 
 shared_file_dir = args[1]
 
-source(paste0(shared_file_dir, '/constant_vars.R'))
-source(paste0(shared_file_dir, '/shared_funcs.R'))
+source(paste0(shared_file_dir, '/constant_vars__two_cues.R'))
+source(paste0(shared_file_dir, '/shared_funcs__two_cues.R'))
 
 seed = args[2]
 cat('Seed: ', seed, '\n')
@@ -20,7 +20,8 @@ df = NA
 
 dplyr.summarise.inform = F
 
-for(depth in 0:10000){
+depth = 0
+while(T){
     filename = paste0('dominant_lineage_fitness/depth_', depth, '.csv')
     if(!file.exists(filename)){
         break
@@ -37,5 +38,6 @@ for(depth in 0:10000){
     else{
         df = df_summary
     }    
+    depth = depth + 1
 }
 write.csv(df, 'dominant_lineage_summary.csv')

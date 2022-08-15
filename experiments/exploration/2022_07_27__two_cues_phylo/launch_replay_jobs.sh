@@ -15,153 +15,43 @@ EXP_DIR=$(pwd)
 REPO_ROOT_DIR=$(pwd | grep -oP ".+/(?=experiments/)")
 source ${REPO_ROOT_DIR}/config_global.sh
 
-#REPLAY_SEED=7
-#REPLAY_DEPTH=16  # Done
-#REPLAY_DEPTH=33  # Done
-#REPLAY_DEPTH=49  # Done
-#REPLAY_DEPTH=66  # Done 
-#REPLAY_DEPTH=82  # Done 
-#REPLAY_DEPTH=99  # Done 
-#REPLAY_DEPTH=116 # Done
-#REPLAY_DEPTH=133 # Done
-#REPLAY_DEPTH=149 # Done
-#REPLAY_DEPTH=166 # Done 
-#REPLAY_DEPTH=182 # Done
-#REPLAY_DEPTH=199 # Done (100% learning)
-#REPLAY_DEPTH=233 
-#REPLAY_DEPTH=266 # Done
-#REPLAY_DEPTH=299
-#REPLAY_DEPTH=333 # Done
-#REPLAY_DEPTH=366 
-#REPLAY_DEPTH=399 # Done
-
-#REPLAY_SEED=69
-#REPLAY_DEPTH=80   # 4  Done 
-#REPLAY_DEPTH=160  # 2  Done 
-#REPLAY_DEPTH=200  # 7  Done 
-#REPLAY_DEPTH=240  # 5  Done 
-#REPLAY_DEPTH=280  # 8  Done 
-#REPLAY_DEPTH=320  # 1  Done 
-#REPLAY_DEPTH=360  # 9  Done 
-#REPLAY_DEPTH=400  # 6  Done 
-#REPLAY_DEPTH=440  # 10 Done 
-#REPLAY_DEPTH=480  # 3  Done 
-
-REPLAY_SEE=82
-#REPLAY_DEPTH=40  # 4  Done
-#REPLAY_DEPTH=80  # 2  Done
-#REPLAY_DEPTH=120 # 5  Done
-#REPLAY_DEPTH=160 # 1  Done
-#REPLAY_DEPTH=200 # 6  Done
-#REPLAY_DEPTH=220 # 8  Done
-#REPLAY_DEPTH=240 # 3  Done
-#REPLAY_DEPTH=260 # 9  Done
-#REPLAY_DEPTH=280 # 7  Done
-#REPLAY_DEPTH=300 # 10 Done
-
-MAX_UPDATES=250000
-TIME_HOURS=23
-TIME_MINUTES=59
-
-echo "Launching replay jobs for experiment: ${EXP_NAME}"
-echo "    Seed: ${REPLAY_SEED}; Depth: ${REPLAY_DEPTH}"
-
 #### Grab references to the various directories used in setup
 LAUNCH_DIR=`pwd`
-MABE_DIR=${REPO_ROOT_DIR}/MABE2
-MABE_EXTRAS_DIR=${REPO_ROOT_DIR}/MABE2_extras
 SCRATCH_EXP_DIR=${SCRATCH_ROOT_DIR}/${EXP_NAME}
 SCRATCH_FILE_DIR=${SCRATCH_EXP_DIR}/shared_files
 SCRATCH_SLURM_DIR=${SCRATCH_EXP_DIR}/slurm
+SCRATCH_SLURM_OUT_DIR=${SCRATCH_SLURM_DIR}/out
+SCRATCH_SLURM_JOB_DIR=${SCRATCH_SLURM_DIR}/jobs
 
-# Setup the directory structure
-echo "Creating directory structure in: ${SCRATCH_EXP_DIR}"
-mkdir -p ${SCRATCH_FILE_DIR}
-mkdir -p ${SCRATCH_SLURM_DIR}
-mkdir -p ${SCRATCH_EXP_DIR}/reps
+MAX_UPDATES=250000
+REPLAY_SEED=67
+for REPLAY_DEPTH in 328 164 82 246 410 41 123 205 287 369
+do
+    echo "Launching replay jobs for experiment: ${EXP_NAME}"
+    echo "    Seed: ${REPLAY_SEED}; Depth: ${REPLAY_DEPTH}"
 
-# Copy all files that are shared across replicates
-#cp ${MABE_DIR}/build/MABE ${SCRATCH_FILE_DIR}
-#cp ${LAUNCH_DIR}/shared_files/* ${SCRATCH_FILE_DIR}
+    echo "Generating slurm job scripts in dir: ${SCRATCH_SLURM_JOB_DIR}"
+    echo "Sending slurm output to dir: ${SCRATCH_SLURM_OUT_DIR}"
 
-echo "Sending slurm files to dir: ${SCRATCH_SLURM_DIR}"
-echo " "
+    # Create output sbatch file, and find/replace key info
+    sed -e "s/(<EXP_NAME>)/${EXP_NAME}/g" replay_job_template.sb > out.sb
+    ESCAPED_SCRATCH_SLURM_OUT_DIR=$(echo "${SCRATCH_SLURM_OUT_DIR}" | sed -e "s/\//\\\\\//g")
+    sed -i -e "s/(<SCRATCH_SLURM_OUT_DIR>)/${ESCAPED_SCRATCH_SLURM_OUT_DIR}/g" out.sb
+    ESCAPED_SCRATCH_EXP_DIR=$(echo "${SCRATCH_EXP_DIR}" | sed -e "s/\//\\\\\//g")
+    sed -i -e "s/(<SCRATCH_EXP_DIR>)/${ESCAPED_SCRATCH_EXP_DIR}/g" out.sb
+    ESCAPED_SCRATCH_FILE_DIR=$(echo "${SCRATCH_FILE_DIR}" | sed -e "s/\//\\\\\//g")
+    sed -i -e "s/(<SCRATCH_FILE_DIR>)/${ESCAPED_SCRATCH_FILE_DIR}/g" out.sb
+    sed -i -e "s/(<REPLAY_SEED>)/${REPLAY_SEED}/g" out.sb
+    sed -i -e "s/(<REPLAY_DEPTH>)/${REPLAY_DEPTH}/g" out.sb
+    sed -i -e "s/(<MAX_UPDATES>)/${MAX_UPDATES}/g" out.sb
 
-# Pass the job script to sbatch, filling in some configuration variables
-# Note: all variables in the job script will need the $ escaped!
+    # Move output sbatch file to final destination, and add to roll_q queue
+    TIMESTAMP=`date +%m_%d_%y__%H_%M_%S`
+    SLURM_FILENAME=${SCRATCH_SLURM_JOB_DIR}/replay_${REPLAY_SEED}_${REPLAY_DEPTH}__${EXP_NAME}__${TIMESTAMP}.sb
+    mv out.sb ${SLURM_FILENAME} 
+    echo "${SLURM_FILENAME}" >> ${ROLL_Q_DIR}/roll_q_job_array.txt
+    echo "Finished creating jobs (seed: ${REPLAY_SEED}; depth: ${REPLAY_DEPTH})"
+    echo ""
 
-sbatch <<EOF
-#!/bin/bash --login
-#SBATCH --time=${TIME_HOURS}:${TIME_MINUTES}:00
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=2g
-#SBATCH --job-name ${EXP_NAME}
-#SBATCH --array=1-100
-#SBATCH --output=${SCRATCH_SLURM_DIR}/slurm_replay_${REPLAY_SEED}_${REPLAY_DEPTH}-%A_%a.out
-
-# Load the necessary modules
-module purge
-module load GCC/11.2.0
-module load OpenMPI/4.1.1
-module load R/4.1.2
-
-# Fill in variables via launch script
-REPLAY_SEED=${REPLAY_SEED}
-REPLAY_DEPTH=${REPLAY_DEPTH}
-MAX_UPDATES=${MAX_UPDATES}
-
-#### Grab global variables, experiment name, etc.
-# Do not touch this block unless you know what you're doing!
-# Experiment name -> name of current directory
-EXP_NAME=\$(pwd | grep -oP "/\K[^/]+$")
-# Experiment directory -> current directory
-EXP_DIR=\$(pwd)
-# Root directory -> The root level of the repo, should be directory just above 'experiments'
-REPO_ROOT_DIR=\$(pwd | grep -oP ".+/(?=experiments/)")
-source \${REPO_ROOT_DIR}/config_global.sh
-
-# Calculate the seed
-SEED_BASE=1310000
-OLD_SEED=\$((\${SEED_BASE} + \${SLURM_ARRAY_TASK_ID}))
-echo "Old random seed: \${OLD_SEED}: Replicate ID: \${SLURM_ARRAY_TASK_ID}"
-SEED_OFFSET=\$((1000 * \${REPLAY_SEED}))
-SEED_OFFSET=\$((\${SEED_OFFSET} + \${SLURM_ARRAY_TASK_ID}))
-NEW_SEED=\$((\${OLD_SEED} + \${SEED_OFFSET}))
-echo "New random seed: \${NEW_SEED}: Replicate ID: \${SLURM_ARRAY_TASK_ID}"
-
-# Grab all the needed directories
-MABE_DIR=\${REPO_ROOT_DIR}/MABE2
-MABE_EXTRAS_DIR=\${REPO_ROOT_DIR}/MABE2_extras
-SCRATCH_EXP_DIR=\${SCRATCH_ROOT_DIR}/\${EXP_NAME}
-SCRATCH_FILE_DIR=\${SCRATCH_EXP_DIR}/shared_files
-SCRATCH_BASE_JOB_DIR=\${SCRATCH_EXP_DIR}/reps/\${REPLAY_SEED}
-SCRATCH_JOB_DIR=\${SCRATCH_BASE_JOB_DIR}/replays/\${REPLAY_DEPTH}/\${SLURM_ARRAY_TASK_ID}
-
-# Grab genome and origin time from old lineage
-cd \${SCRATCH_BASE_JOB_DIR}
-START_GENOME=\$(Rscript \${SCRATCH_FILE_DIR}/extract_from_lineage.R \${REPLAY_DEPTH}) 
-ORIGIN_TIME=\$(Rscript \${SCRATCH_FILE_DIR}/extract_from_lineage.R \${REPLAY_DEPTH} origin_time) 
-REPLAY_UPDATES=\$(( \${MAX_UPDATES} - \${ORIGIN_TIME} ))
-
-# Create replicate-specific directories
-mkdir -p \${SCRATCH_JOB_DIR}
-mkdir -p \${SCRATCH_JOB_DIR}/phylo
-cd \${SCRATCH_JOB_DIR}
-
-# Convert the genome into format MABE2 expects
-python3 \${SCRATCH_FILE_DIR}/genome_conversion.py -c \${START_GENOME} base.org \${SCRATCH_BASE_JOB_DIR}/inst_set_output.txt 
-
-# Run!
-time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=\${NEW_SEED} -s avida_org.inst_set_input_filename=\"\${SCRATCH_FILE_DIR}/inst_set_input.txt\" -s avida_org.initial_genome_filename=\"base.org\" -s max_updates=\${REPLAY_UPDATES}
-
-# Analyze final dominant org
-Rscript \${SCRATCH_FILE_DIR}/phylo_analysis.R \${REPLAY_UPDATES}
-DOMINANT_GENOME=\$(cat final_dominant_char.org)
-python3 \${SCRATCH_FILE_DIR}/genome_conversion.py -c \${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
-time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=\${NEW_SEED} -s avida_org.inst_set_input_filename=\"\${SCRATCH_FILE_DIR}/inst_set_input.txt\" 
-mv single_org_fitness.csv final_dominant_org_fitness.csv
-
-scontrol show job \$SLURM_JOB_ID
-EOF
+done # End for loop
+echo "Finished creating all jobs."
