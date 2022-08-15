@@ -2,10 +2,10 @@ rm(list = ls())
 
 library(ggplot2)
 library(dplyr)
-source('../shared_files/constant_vars.R')
-source('../shared_files/shared_funcs.R')
+source('../../../../global_shared_files/constant_vars__two_cues.R')
+source('../../../../global_shared_files/shared_funcs__two_cues.R')
 
-for(seed in c(7,69,82)){
+for(seed in c(7,69,82,67)){
   cat('Seed: ', seed, '\n')
   data_dir = paste0('../data')
   base_rep_dir = paste0(data_dir, '/reps/', seed)
@@ -51,7 +51,7 @@ for(seed in c(7,69,82)){
     classification_summary[mask,]$pct = classification_summary[mask,]$count / sum(classification_summary[mask,]$count)
   }
   
-  ggplot(classification_summary, aes(xi = seed_classification_factor, y = count, fill = seed_classification_factor)) + 
+  ggplot(classification_summary, aes(x = seed_classification_factor, y = count, fill = seed_classification_factor)) + 
     geom_col() +
     facet_grid(cols = vars(as.factor(depth))) + 
     scale_fill_manual(values = color_map) + 

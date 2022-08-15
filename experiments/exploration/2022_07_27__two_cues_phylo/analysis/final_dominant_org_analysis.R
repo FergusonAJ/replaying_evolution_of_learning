@@ -3,8 +3,8 @@ rm(list = ls())
 library(ggplot2)
 library(dplyr)
 
-source('../shared_files/constant_vars.R')
-source('../shared_files/shared_funcs.R')
+source('../../../../global_shared_files/constant_vars__two_cues.R')
+source('../../../../global_shared_files/shared_funcs__two_cues.R')
 source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
 
 plot_dir = '../plots/'

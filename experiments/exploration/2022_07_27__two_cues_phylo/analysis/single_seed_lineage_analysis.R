@@ -1,7 +1,7 @@
 rm(list = ls())
 
 library(ggplot2)
-source('../shared_files/constant_vars.R')
+source('../../../../global_shared_files/constant_vars__two_cues.R')
 
 for(seed in 1:100){
   input_filename = paste0('../data/reps/', seed, '/dominant_lineage_summary.csv') 
@@ -51,5 +51,10 @@ for(seed in 1:100){
     geom_point(aes(y = merit_max), alpha = 0.1) +
     scale_color_manual(values = color_map)
   ggsave(paste0(plot_dir, '/merit.pdf'), width = 8, height = 6, units = 'in')
+  
+  ggplot(df, aes(x = depth, color = seed_classification)) + 
+    geom_point(aes(y = genome_length)) +
+    scale_color_manual(values = color_map)
+  ggsave(paste0(plot_dir, '/genome_length.pdf'), width = 8, height = 6, units = 'in')
 }
 
