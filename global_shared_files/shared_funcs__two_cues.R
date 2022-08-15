@@ -5,9 +5,9 @@ library(ggplot2)
 library(dplyr)
 args = commandArgs(trailingOnly=TRUE)
 if(length(args) > 0){
-  source(paste0(args[1], '/constant_vars.R'))
+  source(paste0(args[1], '/constant_vars.R__two_cues'))
 } else{
-  source('../shared_files/constant_vars.R')
+  source('../shared_files/constant_vars__two_cues.R')
 }
 
 

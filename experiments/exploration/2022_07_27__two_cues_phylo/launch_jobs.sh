@@ -15,102 +15,66 @@ EXP_DIR=$(pwd)
 REPO_ROOT_DIR=$(pwd | grep -oP ".+/(?=experiments/)")
 source ${REPO_ROOT_DIR}/config_global.sh
 
-echo "Launching jobs for experiment: ${EXP_NAME}"
+echo " "
+echo "Creating jobs for experiment: ${EXP_NAME}"
 
 #### Grab references to the various directories used in setup
 LAUNCH_DIR=`pwd`
 MABE_DIR=${REPO_ROOT_DIR}/MABE2
 MABE_EXTRAS_DIR=${REPO_ROOT_DIR}/MABE2_extras
+GLOBAL_FILE_DIR=${REPO_ROOT_DIR}/global_shared_files
 SCRATCH_EXP_DIR=${SCRATCH_ROOT_DIR}/${EXP_NAME}
 SCRATCH_FILE_DIR=${SCRATCH_EXP_DIR}/shared_files
 SCRATCH_SLURM_DIR=${SCRATCH_EXP_DIR}/slurm
+SCRATCH_SLURM_OUT_DIR=${SCRATCH_SLURM_DIR}/out
+SCRATCH_SLURM_JOB_DIR=${SCRATCH_SLURM_DIR}/jobs
+BASE_ROLL_Q_DIR=${REPO_ROOT_DIR}/roll_q
 
 # Setup the directory structure
+echo " "
 echo "Creating directory structure in: ${SCRATCH_EXP_DIR}"
 mkdir -p ${SCRATCH_FILE_DIR}
 mkdir -p ${SCRATCH_SLURM_DIR}
+mkdir -p ${SCRATCH_SLURM_OUT_DIR}
+mkdir -p ${SCRATCH_SLURM_JOB_DIR}
 mkdir -p ${SCRATCH_EXP_DIR}/reps
+
+# Initialize roll_q if needed
+if [ ! -d ${ROLL_Q_DIR} ]
+then
+    echo "roll_q not found on scratch! Copying and initializing..."
+    cp ${BASE_ROLL_Q_DIR} ${ROLL_Q_DIR} -r
+    echo "0" > ${ROLL_Q_DIR}/roll_q_idx.txt
+    rm ${ROLL_Q_DIR}/roll_q_job_array.txt
+    touch ${ROLL_Q_DIR}/roll_q_job_array.txt
+    echo "roll_q initialized!"
+fi
 
 # Copy all files that are shared across replicates
 cp ${MABE_DIR}/build/MABE ${SCRATCH_FILE_DIR}
 cp ${LAUNCH_DIR}/shared_files/* ${SCRATCH_FILE_DIR}
+cp ${GLOBAL_FILE_DIR}/* ${SCRATCH_FILE_DIR}
 
-echo "Sending slurm files to dir: ${SCRATCH_SLURM_DIR}"
+# Tell user where files are going
+echo " "
+echo "Sending generated slurm job file to dir: ${SCRATCH_SLURM_JOB_DIR}"
+echo "Sending slurm output files to dir: ${SCRATCH_SLURM_OUT_DIR}"
 echo " "
 
-# Pass the job script to sbatch, filling in some configuration variables
-# Note: all variables in the job script will need the $ escaped!
+# Create output sbatch file, and find/replace key info
+sed -e "s/(<EXP_NAME>)/${EXP_NAME}/g" job_template.sb > out.sb
+ESCAPED_SCRATCH_SLURM_OUT_DIR=$(echo "${SCRATCH_SLURM_OUT_DIR}" | sed -e "s/\//\\\\\//g")
+sed -i -e "s/(<SCRATCH_SLURM_OUT_DIR>)/${ESCAPED_SCRATCH_SLURM_OUT_DIR}/g" out.sb
+ESCAPED_SCRATCH_EXP_DIR=$(echo "${SCRATCH_EXP_DIR}" | sed -e "s/\//\\\\\//g")
+sed -i -e "s/(<SCRATCH_EXP_DIR>)/${ESCAPED_SCRATCH_EXP_DIR}/g" out.sb
+ESCAPED_SCRATCH_FILE_DIR=$(echo "${SCRATCH_FILE_DIR}" | sed -e "s/\//\\\\\//g")
+sed -i -e "s/(<SCRATCH_FILE_DIR>)/${ESCAPED_SCRATCH_FILE_DIR}/g" out.sb
 
-sbatch <<EOF
-#!/bin/bash --login
-#SBATCH --time=23:59:00
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=1g
-#SBATCH --job-name ${EXP_NAME}
-#SBATCH --array=1-100
-#SBATCH --output=${SCRATCH_SLURM_DIR}/slurm-%A_%a.out
-
-# Load the necessary modules
-module purge
-module load GCC/11.2.0
-module load OpenMPI/4.1.1
-module load R/4.1.2
-
-#### Grab global variables, experiment name, etc.
-# Do not touch this block unless you know what you're doing!
-# Experiment name -> name of current directory
-EXP_NAME=\$(pwd | grep -oP "/\K[^/]+$")
-# Experiment directory -> current directory
-EXP_DIR=\$(pwd)
-# Root directory -> The root level of the repo, should be directory just above 'experiments'
-REPO_ROOT_DIR=\$(pwd | grep -oP ".+/(?=experiments/)")
-source \${REPO_ROOT_DIR}/config_global.sh
-
-# Calculate the seed
-SEED_BASE=1200000
-SEED=\$((\${SEED_BASE} + \${SLURM_ARRAY_TASK_ID}))
-echo "Random seed: \${SEED}: Replicate ID: \${SLURM_ARRAY_TASK_ID}"
-
-# Grab all the needed directories
-MABE_DIR=\${REPO_ROOT_DIR}/MABE2
-MABE_EXTRAS_DIR=\${REPO_ROOT_DIR}/MABE2_extras
-SCRATCH_EXP_DIR=\${SCRATCH_ROOT_DIR}/\${EXP_NAME}
-SCRATCH_FILE_DIR=\${SCRATCH_EXP_DIR}/shared_files
-SCRATCH_JOB_DIR=\${SCRATCH_EXP_DIR}/reps/\${SLURM_ARRAY_TASK_ID}
-
-# Create replicate-specific directories
-mkdir -p \${SCRATCH_JOB_DIR}
-mkdir -p \${SCRATCH_JOB_DIR}/phylo
-cd \${SCRATCH_JOB_DIR}
-
-# Run!
-time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=\${SEED}
-#Rscript ./final_org_check.R
-#Rscript ./summarize_data.R
-
-# Analyze final dominant org
-Rscript \${SCRATCH_FILE_DIR}/phylo_analysis.R
-DOMINANT_GENOME=\$(cat final_dominant_char.org)
-python3 \${SCRATCH_FILE_DIR}/genome_conversion.py -c \${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
-time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=\${SEED}
-mv single_org_fitness.csv final_dominant_org_fitness.csv
-
-# Analyze orgs along the dominant lineage
-LINEAGE_FILE_LENGTH=\$(cat dominant_lineage.csv | wc -l)
-LINEAGE_LENGTH=\$((\${LINEAGE_FILE_LENGTH} - 2)) # -1 for header, -1 for starting at 0
-mkdir -p dominant_lineage_fitness
-for ((LINEAGE_IDX=0; LINEAGE_IDX<=\${LINEAGE_LENGTH}; LINEAGE_IDX++))
-do
-    SEED=\$((SEED + 1))
-    TMP_GENOME=\$(Rscript \${SCRATCH_FILE_DIR}/extract_from_lineage.R \${LINEAGE_IDX}) 
-    echo "Genome index \${LINEAGE_IDX}: \${TMP_GENOME}"
-    python3 \${SCRATCH_FILE_DIR}/genome_conversion.py -c \${TMP_GENOME} tmp.org inst_set_output.txt 
-    time \${SCRATCH_FILE_DIR}/MABE -f \${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=\${SEED} -s avida_org.initial_genome_filename=\"tmp.org\" 
-    mv single_org_fitness.csv dominant_lineage_fitness/depth_\${LINEAGE_IDX}.csv
-done
-Rscript \${SCRATCH_FILE_DIR}/summarize_lineage.R \${SCRATCH_FILE_DIR} \${SLURM_ARRAY_TASK_ID}
-
-scontrol show job \$SLURM_JOB_ID
-EOF
+# Move output sbatch file to final destination, and add to roll_q queue
+TIMESTAMP=`date +%m_%d_%y__%H_%M_%S`
+SLURM_FILENAME=${SCRATCH_SLURM_JOB_DIR}/${EXP_NAME}__${TIMESTAMP}.sb
+mv out.sb ${SLURM_FILENAME} 
+echo "${SLURM_FILENAME}" >> ${ROLL_Q_DIR}/roll_q_job_array.txt
+echo ""
+echo "Finished creating jobs."
+echo ""
