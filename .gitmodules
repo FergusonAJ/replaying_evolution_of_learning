@@ -5,3 +5,6 @@
 [submodule "MABE2_extras"]
 	path = MABE2_extras
 	url = git@github.com:FergusonAJ/MABE2_extras
+[submodule "roll_q"]
+	path = roll_q
+	url = git@github.com:FergusonAJ/roll_q
