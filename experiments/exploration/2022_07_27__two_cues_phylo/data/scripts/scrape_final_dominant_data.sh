@@ -37,8 +37,11 @@ EXP_NAME=$(pwd | grep -oP "/\K[^/]+(?=/data|/data/scripts)")
 REPO_ROOT_DIR=$(pwd | grep -oP ".+/(?=experiments/)")
 source ${REPO_ROOT_DIR}/config_global.sh
 
-REPLAY_SEED=82
-for REPLAY_DEPTH in 40 80 120 160 200 220 240 260 280 300
+#REPLAY_SEED=82
+#for REPLAY_DEPTH in 40 80 120 160 200 220 240 260 280 300
+#do
+REPLAY_SEED=67
+for REPLAY_DEPTH in 328 164 82 246 410 41 123 205 287 369
 do
 
     # Calculate directories to pass to R script
