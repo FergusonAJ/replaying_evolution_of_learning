@@ -108,18 +108,20 @@ ggsave(paste0(plot_dir, '/final_dom_classification.png'), width = 9, height = 6,
 #ggsave(paste0(plot_dir, '/raincloud_accuracy.pdf'), width = 9, height = 6, units = 'in')
 #ggsave(paste0(plot_dir, '/raincloud_accuracy.png'), width = 9, height = 6, units = 'in')
 #
-## Raincloud plot of merit
-#ggplot(df, aes(x = seed_classification_factor, y = merit, fill = seed_classification_factor)) + 
-#  geom_flat_violin(scale="width", position = position_nudge(x = .2, y = 0), alpha = .8 ) + 
-#  geom_point(mapping=aes(color=seed_classification_factor), position = position_jitter(width = .15, height = 0), size = .5, alpha = 0.8 ) + 
-#  geom_boxplot( width = .1, outlier.shape = NA, alpha = 0.5 ) +
-#  scale_fill_manual(values = color_map) +
-#  scale_color_manual(values = color_map) + 
-#  xlab('Classification') + 
-#  ylab('Merit') + 
-#  theme(legend.position = 'none')
-#ggsave(paste0(plot_dir, '/raincloud_merit.pdf'), width = 9, height = 6, units = 'in')
-#ggsave(paste0(plot_dir, '/raincloud_merit.png'), width = 9, height = 6, units = 'in')
+# Raincloud plot of merit
+ggplot(df, aes(x = seed_classification_factor, y = merit, fill = seed_classification_factor)) + 
+  geom_flat_violin(scale="width", position = position_nudge(x = .2, y = 0), alpha = .8 ) + 
+  geom_point(mapping=aes(color=seed_classification_factor), position = position_jitter(width = .15, height = 0), size = .5, alpha = 0.8 ) + 
+  geom_boxplot( width = .1, outlier.shape = NA, alpha = 0.5 ) +
+  scale_fill_manual(values = color_map) +
+  scale_color_manual(values = color_map) + 
+  xlab('Classification') + 
+  ylab('Merit') + 
+  theme(legend.position = 'bottom') + 
+  facet_grid(rows = vars(cues), cols = vars(penalty)) +
+  theme(axis.text.x = element_blank())
+ggsave(paste0(plot_dir, '/raincloud_merit.pdf'), width = 9, height = 6, units = 'in')
+ggsave(paste0(plot_dir, '/raincloud_merit.png'), width = 9, height = 6, units = 'in')
 #
 ## Raincloud plot of genome length
 #ggplot(df_summary, aes(x = seed_classification_factor, y = genome_length, fill = seed_classification_factor)) + 
