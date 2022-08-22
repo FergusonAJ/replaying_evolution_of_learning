@@ -1,0 +1,42 @@
+Var num_trials = 100;
+Var cur_genome;
+Var trial_num;
+
+DataFile fit_file { filename="single_org_fitness.csv"; };
+fit_file.ADD_COLUMN("trial_number", "trial_num" );
+fit_file.ADD_SETUP("cur_genome = main_pop.CALC_MODE('genome')" );
+fit_file.ADD_COLUMN("genome", "cur_genome" );
+fit_file.ADD_COLUMN("merit",      "main_pop.CALC_MEAN('child_merit')" );
+fit_file.ADD_COLUMN("accuracy",   "main_pop.CALC_MEAN('accuracy')" );
+fit_file.ADD_COLUMN("genome_length", "main_pop.CALC_MEAN('genome_length')" );
+fit_file.ADD_COLUMN("door_rooms", "main_pop.CALC_MEAN('door_rooms')" );
+fit_file.ADD_COLUMN("exit_rooms", "main_pop.CALC_MEAN('exit_rooms')" );
+fit_file.ADD_COLUMN("correct_doors", "main_pop.CALC_MEAN('correct_doors')" );
+fit_file.ADD_COLUMN("incorrect_doors", "main_pop.CALC_MEAN('incorrect_doors')" );
+fit_file.ADD_COLUMN("correct_exits", "main_pop.CALC_MEAN('correct_exits')" );
+fit_file.ADD_COLUMN("incorrect_exits", "main_pop.CALC_MEAN('incorrect_exits')" );
+fit_file.ADD_COLUMN("doors_taken_0", "main_pop.CALC_MEAN('doors_taken_0')" );
+fit_file.ADD_COLUMN("doors_correct_0", "main_pop.CALC_MEAN('doors_correct_0')" );
+fit_file.ADD_COLUMN("doors_taken_1", "main_pop.CALC_MEAN('doors_taken_1')" );
+fit_file.ADD_COLUMN("doors_correct_1", "main_pop.CALC_MEAN('doors_correct_1')" );
+fit_file.ADD_COLUMN("doors_taken_2", "main_pop.CALC_MEAN('doors_taken_2')" );
+fit_file.ADD_COLUMN("doors_correct_2", "main_pop.CALC_MEAN('doors_correct_2')" );
+fit_file.ADD_COLUMN("doors_taken_3", "main_pop.CALC_MEAN('doors_taken_3')" );
+fit_file.ADD_COLUMN("doors_correct_3", "main_pop.CALC_MEAN('doors_correct_3')" );
+
+@START() {
+  PRINT("random_seed = ", random_seed, "\n");  // Print seed at run start.
+  trial_num = 0;
+  WHILE(trial_num < num_trials){
+    Population empty_pop;  
+    main_pop.REPLACE_WITH(empty_pop);
+    main_pop.INJECT("avida_org", 1);    // Inject organism 
+    scheduler.EVAL(main_pop, 10000, 1); // Evaluate organism
+    trial_num = trial_num + 1;
+  }
+  PRINT("Ran ", trial_num, " trials!");
+  EXIT();
+};
+@BEFORE_REPRO(){
+  fit_file.WRITE();
+}
