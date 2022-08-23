@@ -1,12 +1,8 @@
 # Load libraries and local helper files
 library(ggplot2)
 library(dplyr)
-args = commandArgs(trailingOnly=TRUE)
-if(length(args) > 0){
-  source(paste0(args[1], '/constant_vars__three_cues_one_set.R'))
-} else{
-  source('../../../../global_shared_files/constant_vars__three_cues_one_set.R')
-}
+
+# NOTE: File expects constant_vars__three_cues_one_set.R to have already been sources
 
 
 plot_masked_data = function(data, mask, title){
