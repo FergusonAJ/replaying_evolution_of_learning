@@ -1,5 +1,3 @@
-rm(list = ls())
-
 # Load libraries and local helper files
 library(ggplot2)
 library(dplyr)
