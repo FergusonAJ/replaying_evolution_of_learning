@@ -1,0 +1,10 @@
+book_filename: "replaying_evolution_of_learning"
+language:
+  ui:
+    chapter_name: "Section "
+delete_merged_file: true
+rmd_files: [
+  "index.Rmd",
+  "analysis.Rmd"
+  #"tail.Rmd"
+]

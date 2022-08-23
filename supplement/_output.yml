@@ -1,0 +1,12 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: "chapter"
+  citation_package: natbib
+  config:
+    toc:
+      before: |
+        <li><a href="./">Replaying the evolution of learning</a></li>
+      after: |
+        <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with ❤ and bookdown</a></li>
+    edit: https://github.com/FergusonAJ/replaying_evolution_of_learning/tree/main/supplement/%s
+    download: ["pdf"]
