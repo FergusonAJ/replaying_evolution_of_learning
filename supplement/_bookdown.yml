@@ -5,6 +5,7 @@ language:
 delete_merged_file: true
 rmd_files: [
   "index.Rmd",
-  "analysis.Rmd"
+  "initial_2c.Rmd",
+  "initial_3c1s.Rmd"
   #"tail.Rmd"
 ]
