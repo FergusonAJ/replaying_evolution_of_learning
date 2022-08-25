@@ -1,13 +1,8 @@
 # Load libraries and local helper files
 library(ggplot2)
 library(dplyr)
-args = commandArgs(trailingOnly=TRUE)
-if(length(args) > 0){
-  source(paste0(args[1], '/constant_vars__two_cues.R'))
-} else{
-  source('../../../../global_shared_files/constant_vars__two_cues.R')
-}
 
+# NOTE: This file expects that constant_vars__two_cues.R has already been sourced
 
 plot_masked_data = function(data, mask, title){
   df_class = data.frame(data = matrix(ncol = 5, nrow = 0))
