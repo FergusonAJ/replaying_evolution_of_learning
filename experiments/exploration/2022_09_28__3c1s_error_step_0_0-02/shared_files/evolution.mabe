@@ -1,0 +1,69 @@
+Var dominant_genome;
+DataFile fit_file { filename="fitness.csv"; };
+fit_file.ADD_SETUP("dominant_genome = main_pop.CALC_MODE('genome')" );
+fit_file.ADD_COLUMN("merit_mean",      "main_pop.CALC_MEAN('child_merit')" );
+fit_file.ADD_COLUMN("merit_max",       "main_pop.CALC_MAX('child_merit')" );
+fit_file.ADD_COLUMN("accuracy_mean",   "main_pop.CALC_MEAN('accuracy')" );
+fit_file.ADD_COLUMN("accuracy_max",    "main_pop.CALC_MAX('accuracy')" );
+fit_file.ADD_COLUMN("dominant_genome", "dominant_genome" );
+fit_file.ADD_COLUMN("genome_length_mean", "main_pop.CALC_MEAN('genome_length')" );
+fit_file.ADD_COLUMN("door_rooms_mean", "main_pop.CALC_MEAN('door_rooms')" );
+fit_file.ADD_COLUMN("exit_rooms_mean", "main_pop.CALC_MEAN('exit_rooms')" );
+fit_file.ADD_COLUMN("correct_doors_mean", "main_pop.CALC_MEAN('correct_doors')" );
+fit_file.ADD_COLUMN("incorrect_doors_mean", "main_pop.CALC_MEAN('incorrect_doors')" );
+fit_file.ADD_COLUMN("correct_exits_mean", "main_pop.CALC_MEAN('correct_exits')" );
+fit_file.ADD_COLUMN("incorrect_exits_mean", "main_pop.CALC_MEAN('incorrect_exits')" );
+fit_file.ADD_COLUMN("doors_taken_0_mean", "main_pop.CALC_MEAN('doors_taken_0')" );
+fit_file.ADD_COLUMN("doors_correct_0_mean", "main_pop.CALC_MEAN('doors_correct_0')" );
+fit_file.ADD_COLUMN("doors_taken_1_mean", "main_pop.CALC_MEAN('doors_taken_1')" );
+fit_file.ADD_COLUMN("doors_correct_1_mean", "main_pop.CALC_MEAN('doors_correct_1')" );
+fit_file.ADD_COLUMN("doors_taken_2_mean", "main_pop.CALC_MEAN('doors_taken_2')" );
+fit_file.ADD_COLUMN("doors_correct_2_mean", "main_pop.CALC_MEAN('doors_correct_2')" );
+fit_file.ADD_COLUMN("doors_taken_3_mean", "main_pop.CALC_MEAN('doors_taken_3')" );
+fit_file.ADD_COLUMN("doors_correct_3_mean", "main_pop.CALC_MEAN('doors_correct_3')" );
+
+DataFile max_file { filename="max_org.csv"; };
+OrgList best_org;
+max_file.ADD_SETUP("best_org = main_pop.FIND_MAX('child_merit')" );
+max_file.ADD_COLUMN("genome",       "best_org.TRAIT('genome')" );
+max_file.ADD_COLUMN("merit",       "best_org.TRAIT('child_merit')" );
+max_file.ADD_COLUMN("merit_given", "best_org.TRAIT('merit')" );
+max_file.ADD_COLUMN("gen", "best_org.TRAIT('generation')" );
+max_file.ADD_COLUMN("accuracy", "best_org.TRAIT('accuracy')" );
+max_file.ADD_COLUMN("door_rooms", "best_org.TRAIT('door_rooms')" );
+max_file.ADD_COLUMN("exit_rooms", "best_org.TRAIT('exit_rooms')" );
+max_file.ADD_COLUMN("correct_doors", "best_org.TRAIT('correct_doors')" );
+max_file.ADD_COLUMN("incorrect_doors", "best_org.TRAIT('incorrect_doors')" );
+max_file.ADD_COLUMN("correct_exits", "best_org.TRAIT('correct_exits')" );
+max_file.ADD_COLUMN("incorrect_exits", "best_org.TRAIT('incorrect_exits')" );
+max_file.ADD_COLUMN("doors_taken_0", "best_org.TRAIT('doors_taken_0')" );
+max_file.ADD_COLUMN("doors_correct_0", "best_org.TRAIT('doors_correct_0')" );
+max_file.ADD_COLUMN("doors_taken_1", "best_org.TRAIT('doors_taken_1')" );
+max_file.ADD_COLUMN("doors_correct_1", "best_org.TRAIT('doors_correct_1')" );
+max_file.ADD_COLUMN("doors_taken_2", "best_org.TRAIT('doors_taken_2')" );
+max_file.ADD_COLUMN("doors_correct_2", "best_org.TRAIT('doors_correct_2')" );
+max_file.ADD_COLUMN("doors_taken_3", "best_org.TRAIT('doors_taken_3')" );
+max_file.ADD_COLUMN("doors_correct_3", "best_org.TRAIT('doors_correct_3')" );
+
+@START() {
+  PRINT("random_seed = ", random_seed, "\n");  // Print seed at run start.
+  main_pop.INJECT("avida_org", 1);             // Inject ancestor organism 
+};
+
+Var avg_gen; 
+@UPDATE(Var ud) {
+  scheduler.SCHEDULE();
+  PRINT("UD:", GET_UPDATE(),
+        "  pop_size=", main_pop.SIZE(),
+        "  gen_mean=", main_pop.CALC_MEAN("generation"),
+        "  mean_accuracy=", main_pop.CALC_MEAN("accuracy")
+       );
+  fit_file.WRITE();
+  max_file.WRITE();
+  avg_gen = main_pop.CALC_MEAN("generation");
+  IF(ud >= max_updates){ 
+    sys.SNAPSHOT();
+    EXIT();
+  }
+};
+
