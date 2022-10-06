@@ -2,3 +2,5 @@
 ./config_global.sh
 **/.Rhistory
 **/Rplots.pdf
+supplement/_book/*
+supplement/_bookdown_files/*
