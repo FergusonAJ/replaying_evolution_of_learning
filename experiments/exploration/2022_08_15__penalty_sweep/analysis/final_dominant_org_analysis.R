@@ -3,6 +3,7 @@ rm(list = ls())
 library(ggplot2)
 library(dplyr)
 
+source('../../../../global_shared_files/constant_vars__two_cues.R')
 source('../../../../global_shared_files/shared_funcs__two_cues.R')
 source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
 
@@ -15,8 +16,10 @@ classification_summary = NA
 
 for(cue_str in c('2c', '3c1s')){
   if(cue_str == '2c'){
+    source('../../../../global_shared_files/constant_vars__two_cues.R')
     source('../../../../global_shared_files/shared_funcs__two_cues.R')
   } else {
+    source('../../../../global_shared_files/constant_vars__three_cues_one_set.R')
     source('../../../../global_shared_files/shared_funcs__three_cues_one_set.R')
   }
   for(penalty_str in c('1', '1_1', '1_25', '1_5', '2')){
