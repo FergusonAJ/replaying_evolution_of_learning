@@ -52,7 +52,7 @@ EvalDoors eval_doors {      // Evaluate organisms on their ability to follow a p
   score_trait = "child_merit";  // Which trait stores path following performance?
   accuracy_trait = "accuracy";  // Which trait stores door accuracy?
   state_trait = "state";    // Which trait stores organisms' path follow state?
-  cue_values = "0;1;-1;-1;";  // A semicolon-separated string of cue values. 
+  cue_values = "0;-1;-1;1";  // A semicolon-separated string of cue values. 
                                // A non-negative value is used as is, -1 gives a random cue 
                                // for each trial (first value is the exit)
   correct_doors_trait = "correct_doors";// Which trait stores the number of doors correctly taken?
