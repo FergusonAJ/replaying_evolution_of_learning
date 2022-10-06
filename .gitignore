@@ -1,3 +1,4 @@
-*.swp
+**/*.swp
 ./config_global.sh
-*/.Rhistory
+**/.Rhistory
+**/Rplots.pdf
