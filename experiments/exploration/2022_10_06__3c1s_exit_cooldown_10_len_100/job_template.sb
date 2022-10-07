@@ -1,0 +1,79 @@
+#!/bin/bash --login
+#SBATCH --time=24:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=1g
+#SBATCH --job-name (<EXP_NAME>)
+#SBATCH --array=1-100
+#SBATCH --output=(<SCRATCH_SLURM_OUT_DIR>)/slurm-%A_%a.out
+
+# Load the necessary modules
+module purge
+module load GCC/11.2.0
+module load OpenMPI/4.1.1
+module load R/4.1.2
+
+# Calculate the seed
+SEED_BASE=22100607000000
+SEED=$((${SEED_BASE} + ${SLURM_ARRAY_TASK_ID}))
+echo "Random seed: ${SEED}: Replicate ID: ${SLURM_ARRAY_TASK_ID}"
+
+# Grab all the needed directories
+SCRATCH_EXP_DIR=(<SCRATCH_EXP_DIR>)
+SCRATCH_FILE_DIR=(<SCRATCH_FILE_DIR>)
+SCRATCH_JOB_DIR=${SCRATCH_EXP_DIR}/reps/${SLURM_ARRAY_TASK_ID}
+
+# Create replicate-specific directories
+mkdir -p ${SCRATCH_JOB_DIR}
+mkdir -p ${SCRATCH_JOB_DIR}/phylo
+cd ${SCRATCH_JOB_DIR}
+
+# Run!
+time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}
+
+# Analyze final dominant org
+Rscript ${SCRATCH_FILE_DIR}/phylo_analysis.R
+NUM_DOM_GENOMES=$(cat final_dominant_char.org | wc -l)
+echo "NUM_DOM_GENOMES=${NUM_DOM_GENOMES}"
+if [ ${NUM_DOM_GENOMES} -gt 1 ]
+then
+    echo "${NUM_DOM_GENOMES} genomes found. Iterating over them..."
+    for (( GENOME_IDX=1; GENOME_IDX<=${NUM_DOM_GENOMES}; GENOME_IDX++ ))
+    do
+        echo "Genome #${GENOME_IDX}"
+        DOMINANT_GENOME=$(head -n ${GENOME_IDX} final_dominant_char.org | tail -n 1)
+        python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
+        time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\"
+        mv single_org_fitness.csv final_dominant_org_fitness_${GENOME_IDX}.csv
+    done
+    FINAL_ORG_FILENAMES=$(ls final_dominant_org_fitness_*.csv)
+    echo "Found final org fitness files: ${FINAL_ORG_FILENAMES}"
+    BEST_MERIT_FILENAME=$(Rscript ${SCRATCH_FILE_DIR}/compare_final_orgs.R ${FINAL_ORG_FILENAMES})
+    echo "Found best final org: ${BEST_MERIT_FILENAME}"
+    cp ${BEST_MERIT_FILENAME} final_dominant_org_fitness.csv
+else
+    DOMINANT_GENOME=$(cat final_dominant_char.org)
+    python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
+    time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\"
+    mv single_org_fitness.csv final_dominant_org_fitness.csv
+fi
+
+# Analyze orgs along the dominant lineage
+LINEAGE_FILE_LENGTH=$(cat dominant_lineage.csv | wc -l)
+LINEAGE_LENGTH=$((${LINEAGE_FILE_LENGTH} - 2)) # -1 for header, -1 for starting at 0
+mkdir -p dominant_lineage_fitness
+for ((LINEAGE_IDX=0; LINEAGE_IDX<=${LINEAGE_LENGTH}; LINEAGE_IDX++))
+do
+    SEED=$((SEED + 1))
+    TMP_GENOME=$(Rscript ${SCRATCH_FILE_DIR}/extract_from_lineage.R ${LINEAGE_IDX}) 
+    echo "Genome at depth ${LINEAGE_IDX}: ${TMP_GENOME}"
+    python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${TMP_GENOME} tmp.org inst_set_output.txt 
+    time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"tmp.org\" 
+    mv single_org_fitness.csv dominant_lineage_fitness/depth_${LINEAGE_IDX}.csv
+done
+# Summarize lineage data and remove the raw data 
+Rscript ${SCRATCH_FILE_DIR}/summarize_lineage__three_cues_one_set.R ${SCRATCH_FILE_DIR} ${SLURM_ARRAY_TASK_ID}
+rm -r dominant_lineage_fitness
+
+scontrol show job $SLURM_JOB_ID
