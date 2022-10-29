@@ -3,7 +3,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=1g
+#SBATCH --mem-per-cpu=8g
 #SBATCH --job-name (<EXP_NAME>)
 #SBATCH --array=1-200
 #SBATCH --output=(<SCRATCH_SLURM_OUT_DIR>)/slurm-%A_%a.out
