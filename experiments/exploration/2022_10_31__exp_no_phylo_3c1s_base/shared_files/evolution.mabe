@@ -21,6 +21,8 @@ fit_file.ADD_COLUMN("doors_taken_2_mean", "main_pop.CALC_MEAN('doors_taken_2')" 
 fit_file.ADD_COLUMN("doors_correct_2_mean", "main_pop.CALC_MEAN('doors_correct_2')" );
 fit_file.ADD_COLUMN("doors_taken_3_mean", "main_pop.CALC_MEAN('doors_taken_3')" );
 fit_file.ADD_COLUMN("doors_correct_3_mean", "main_pop.CALC_MEAN('doors_correct_3')" );
+fit_file.ADD_COLUMN("gen_mean", "main_pop.CALC_MEAN('generation')" );
+fit_file.ADD_COLUMN("gen_mean", "main_pop.CALC_MAX('generation')" );
 
 DataFile max_file { filename="max_org.csv"; };
 OrgList best_org;
