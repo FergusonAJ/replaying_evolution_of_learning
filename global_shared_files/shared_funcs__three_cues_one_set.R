@@ -40,7 +40,7 @@ classify_individual_trials = function(df){
   df$trial_classification[df$trial_classification == trial_class_none & df$accuracy == 0] = trial_class_zero
   df$trial_classification[df$trial_classification == trial_class_none & df$accuracy == 1] = trial_class_perfect
   df$trial_classification[df$trial_classification == trial_class_none & df$correct_doors < 25] = trial_class_small
-  df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_1 > 0] = trial_class_set_wrong
+  #df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_1 > 0] = trial_class_set_wrong
   
   df$trial_classification[df$trial_classification == trial_class_none & df$accuracy > 0.98 & df$incorrect_doors <= 2] = trial_class_learning_optimal
   df$trial_classification[df$trial_classification == trial_class_none & df$accuracy > 0.90 & df$incorrect_doors <= (df$correct_doors * 0.1)] = trial_class_learning_suboptimal
@@ -62,7 +62,6 @@ classify_individual_trials = function(df){
                           & df$doors_incorrect_2 <= 1
                           ] = trial_class_error_correction_better_3
   df$trial_classification[df$trial_classification == trial_class_none 
-                          & df$doors_correct_0 >= df$doors_taken_0 - 1 
                           & df$doors_incorrect_2 > 1 
                           & df$doors_correct_2 > 0 
                           & df$doors_incorrect_3 > 1 
@@ -118,6 +117,7 @@ classify_seeds = function(df){
   df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_error_correction > 0 & df_summary$all_error_correction + df_summary$all_failed == df_summary$num_trials,]$seed_classification = seed_class_bet_hedged_error_correction
   df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_error_correction > 0 & df_summary$all_learning > 0 & df_summary$all_error_correction + df_summary$all_learning + df_summary$all_failed == df_summary$num_trials,]$seed_classification = seed_class_bet_hedged_mixed
   df_summary[df_summary$seed_classification == seed_class_other & df_summary$small > 0,]$seed_classification = seed_class_small
+  df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_failed == df_summary$num_trials,]$seed_classification = seed_class_small
   
   # Add seed classification to original data frame 
   df$seed_classification = seed_class_other
