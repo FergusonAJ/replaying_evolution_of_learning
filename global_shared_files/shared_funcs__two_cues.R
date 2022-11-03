@@ -44,7 +44,8 @@ classify_individual_trials = function(df){
   df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_1 <= 1 & df$doors_incorrect_2 >= df$doors_correct_1 & df$doors_incorrect_2 <= (df$doors_correct_1 + 1)] = trial_class_error_correction_naive_2
   df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_2 <= 1] = trial_class_error_correction_better_1
   df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_1 <= 1] = trial_class_error_correction_better_2
-  df$trial_classification[df$trial_classification == trial_class_none & df$doors_correct_0 >= df$doors_taken_0 - 1 & df$doors_incorrect_1 > 1 & df$doors_correct_1 > 0 & df$doors_incorrect_2 > 1 & df$doors_correct_2 > 0] = trial_class_error_correction_split
+  #df$trial_classification[df$trial_classification == trial_class_none & df$doors_correct_0 >= df$doors_taken_0 - 1 & df$doors_incorrect_1 > 1 & df$doors_correct_1 > 0 & df$doors_incorrect_2 > 1 & df$doors_correct_2 > 0] = trial_class_error_correction_split
+  df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_1 > 1 & df$doors_correct_1 > 0 & df$doors_incorrect_2 > 1 & df$doors_correct_2 > 0] = trial_class_error_correction_split
   df$trial_classification[df$correct_doors < 25] = trial_class_small
   df$trial_classification[df$df$incorrect_doors > 0 & df$doors_correct_0 == 0] = trial_class_trapped
   df$trial_classification[df$exit_rooms >= 2 * df$door_rooms] = trial_class_trapped
