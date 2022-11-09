@@ -27,4 +27,4 @@ for(i in 1:200){
     }
 }
 
-write.csv(df, paste0(output_dir, '/combined_single_data.csv'))
+write.csv(df, paste0(output_dir, '/combined_final_dominant_data.csv'))

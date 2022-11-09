@@ -19,7 +19,7 @@ SchedulerProbabilistic scheduler { // Rations out updates to organisms based on 
   avg_updates = 30;             // How many updates should organism receive on average?
   trait = "merit";              // Which trait provides the fitness value to use?
   base_value = 1;               // What value should the scheduler use for organisms that have performed no tasks?
-  merit_scale_factor = 1.1;     // How should the scheduler scale merit?
+  merit_scale_factor = 1;       // How should the scheduler scale merit?
 };
 VirtualCPU_Inst_Nop inst_lib_nop { // Nop instructions for VirtualCPUOrg
   target_pop = "main_pop";      // Population(s) to manage.
@@ -71,7 +71,7 @@ EvalDoors eval_doors {      // Evaluate organisms on their ability to follow a p
                               //        it is applied
   incorrect_exit_penalty = 1; // Penalty for getting a single exit incorrect
   exit_cooldown = 0; // How many instruction executions the org will miss after taking an exit
-  score_exp_base = 2;         // Merit is equal to score_exp_base^(org's score)
+  score_exp_base = 1.1;       // Merit is equal to score_exp_base^(org's score)
   start_patterns = "";
                                 // List of all possible start patterns for the paths. 
                                 // Empty for random. Semicolons separate patterns, while 

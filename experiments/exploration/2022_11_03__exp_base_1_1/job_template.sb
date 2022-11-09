@@ -9,10 +9,14 @@
 #SBATCH --output=(<SCRATCH_SLURM_OUT_DIR>)/slurm-%A_%a.out
 
 IS_MOCK=0
-while getopts ":m" opt; do
+LOAD_MODULES=1
+while getopts ":ml" opt; do
   case $opt in
     m)
      IS_MOCK=1
+      ;;
+    l)
+     LOAD_MODULES=0 
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -25,8 +29,10 @@ done
 if [ ${IS_MOCK} -gt 0 ]
 then
   SLURM_ARRAY_TASK_ID=1
-else # If this is *not* a mocked job
-  # Load the necessary modules
+fi
+# Load the necessary modules
+if [ ${LOAD_MODULES} -gt 0 ]
+then
   module purge
   module load GCC/11.2.0
   module load OpenMPI/4.1.1
