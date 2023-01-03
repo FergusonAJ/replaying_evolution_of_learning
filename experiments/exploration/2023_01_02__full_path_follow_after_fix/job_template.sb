@@ -1,0 +1,72 @@
+#!/bin/bash --login
+#SBATCH --time=23:59:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=1g
+#SBATCH --job-name (<EXP_NAME>)
+#SBATCH --array=1-1000
+#SBATCH --output=(<SCRATCH_SLURM_OUT_DIR>)/slurm-%A_%a.out
+
+IS_MOCK=0
+LOAD_MODULES=1
+while getopts ":ml" opt; do
+  case $opt in
+    m)
+     IS_MOCK=1
+      ;;
+    l)
+     LOAD_MODULES=0
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
+
+# If this is a mocked job 
+if [ ${IS_MOCK} -gt 0 ]
+then
+  SLURM_ARRAY_TASK_ID=1
+fi
+
+# Load the necessary modules
+if [ ${LOAD_MODULES} -gt 0 ]
+then
+  module purge
+  module load GCC/11.2.0
+  module load OpenMPI/4.1.1
+  module load R/4.1.2
+fi
+
+# Calculate the seed
+SEED_BASE=23010201000000
+SEED=$((${SEED_BASE} + ${SLURM_ARRAY_TASK_ID}))
+echo "Random seed: ${SEED}; Replicate ID: ${SLURM_ARRAY_TASK_ID}"
+
+# Grab all the needed directories
+SCRATCH_EXP_DIR=(<SCRATCH_EXP_DIR>)
+SCRATCH_FILE_DIR=(<SCRATCH_FILE_DIR>)
+SCRATCH_JOB_DIR=${SCRATCH_EXP_DIR}/reps/${SLURM_ARRAY_TASK_ID}
+
+# Create replicate-specific directories
+mkdir -p ${SCRATCH_JOB_DIR}
+mkdir -p ${SCRATCH_JOB_DIR}/phylo
+cd ${SCRATCH_JOB_DIR}
+
+# Run!
+echo "Full command we're about to run:"
+echo "time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_path_follow_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}"
+time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_path_follow_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}
+
+# Analyze final dominant org
+tail -n 1 fitness.csv | grep -oP "\"\[\d+\]\w+\"" | grep -oP "\]\w+" | grep -oP "\w+" > final_dominant_char.org
+DOMINANT_GENOME=$(cat final_dominant_char.org)
+python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
+time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_path_follow_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\" 
+
+if [ ${IS_MOCK} -eq 0 ]
+then
+  scontrol show job $SLURM_JOB_ID
+fi
