@@ -18,6 +18,8 @@ SchedulerProbabilistic scheduler { // Rations out updates to organisms based on 
   pop = "main_pop";             // Which population should we select parents from?
   avg_updates = 30;             // How many updates should organism receive on average?
   trait = "merit";              // Which trait provides the fitness value to use?
+  parent_trait = "child_merit"; // Does nothing if empty. Otherwise, on reproduction the 
+                                // parent will reset their trait (as defined above) with this.
   base_value = 1;               // What value should the scheduler use for organisms that have performed no tasks?
   merit_scale_factor = 1;       // How should the scheduler scale merit?
 };
@@ -71,6 +73,7 @@ EvalDoors eval_doors {      // Evaluate organisms on their ability to follow a p
                               //        it is applied
   incorrect_exit_penalty = 1; // Penalty for getting a single exit incorrect
   exit_cooldown = 0; // How many instruction executions the org will miss after taking an exit
+  exit_cooldown_step = 0;     // How much exit_cooldown increases when exit is taken
   score_exp_base = 2;         // Merit is equal to score_exp_base^(org's score)
   start_patterns = "";
                                 // List of all possible start patterns for the paths. 
