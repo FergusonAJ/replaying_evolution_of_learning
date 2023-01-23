@@ -11,7 +11,7 @@ output_dir = args[2]
 
 df = NA
 
-for(i in 1:1000){
+for(i in 1:200){
     print(i)
     filename = paste0(reps_dir, '/', i, '/single_org_fitness.csv')
     if(!file.exists(filename)){
