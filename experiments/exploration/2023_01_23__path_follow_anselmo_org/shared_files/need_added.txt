@@ -1,0 +1,7 @@
+MoveHeadIfLess
+IfGreaterThan0
+IfEqual0
+IfLessThan0
+IfGreaterThanX
+IfNot0
+IfEqualX
