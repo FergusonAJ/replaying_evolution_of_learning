@@ -5,6 +5,11 @@ library(dplyr)
 # NOTE: File expects constant_vars__three_cues_one_set.R to have already been sources
 
 
+internal_collect_seed_classification = function(v, df_summary){
+  seed = v['seed']
+  df_summary[df_summary$seed == seed,]$seed_classification
+}
+
 plot_masked_data = function(data, mask, title){
   df_class = data.frame(data = matrix(ncol = 5, nrow = 0))
   colnames(df_class) = c('seed', 'trial_number', 'door_idx', 'num_taken', 'num_correct')
@@ -42,8 +47,8 @@ classify_individual_trials = function(df){
   df$trial_classification[df$trial_classification == trial_class_none & df$correct_doors < 25] = trial_class_small
   #df$trial_classification[df$trial_classification == trial_class_none & df$doors_incorrect_1 > 0] = trial_class_set_wrong
   
-  df$trial_classification[df$trial_classification == trial_class_none & df$accuracy > 0.98 & df$incorrect_doors <= 2] = trial_class_learning_optimal
-  df$trial_classification[df$trial_classification == trial_class_none & df$accuracy > 0.90 & df$incorrect_doors <= (df$correct_doors * 0.1)] = trial_class_learning_suboptimal
+  df$trial_classification[df$trial_classification == trial_class_none & df$accuracy > 0.98 & df$incorrect_doors <= 2 & df$incorrect_exits == 0] = trial_class_learning_optimal
+  df$trial_classification[df$trial_classification == trial_class_none & df$accuracy > 0.90 & df$incorrect_doors <= (df$correct_doors * 0.1) & df$incorrect_exits == 0] = trial_class_learning_suboptimal
   
   df$trial_classification[df$trial_classification == trial_class_none 
                           & df$doors_incorrect_3 <= 1 
@@ -70,6 +75,7 @@ classify_individual_trials = function(df){
   df$trial_classification[df$correct_doors < 25] = trial_class_small
   df$trial_classification[df$df$incorrect_doors > 0 & df$doors_correct_0 == 0] = trial_class_trapped
   df$trial_classification[df$exit_rooms >= 2 * df$door_rooms] = trial_class_trapped
+  df$trial_classification[df$exits_incorrect > 0] = trial_class_trapped
   return(df)
 }
 
@@ -130,9 +136,10 @@ classify_seeds = function(df){
       }
     }
   }else{
-    for(seed in unique(df_summary$seed)){
-      df[df$seed == seed,]$seed_classification = df_summary[df_summary$seed == seed,]$seed_classification
-    }
+    #for(seed in unique(df_summary$seed)){
+    #  df[df$seed == seed,]$seed_classification = df_summary[df_summary$seed == seed,]$seed_classification
+    #}
+    df$seed_classification = apply(df, 1, internal_collect_seed_classification, df_summary)
   }
   df$seed_classification_factor = factor(df$seed_classification, levels = seed_classifcation_order_vec)
   return(df)
@@ -152,7 +159,7 @@ summarize_final_dominant_org_data = function(df){
   }
   df_summary = dplyr::summarize(df_grouped, count = dplyr::n(), 
                                 accuracy_mean = mean(accuracy), accuracy_max = max(accuracy), accuracy_min = min(accuracy),
-                                merit_mean = mean(merit), merit_max = max(merit), merit_min = min(merit),
+                                merit_mean = mean(merit), merit_max = max(merit), merit_min = min(merit), merit_median = median(merit),
                                 door_rooms_mean = mean(door_rooms), door_rooms_max = max(door_rooms), door_rooms_min = min(door_rooms),
                                 exit_rooms_mean = mean(exit_rooms), exit_rooms_max = max(exit_rooms), exit_rooms_min = min(exit_rooms),
                                 correct_doors_mean = mean(correct_doors), correct_doors_max = max(correct_doors), correct_doors_min = min(correct_doors),

@@ -95,6 +95,7 @@ classify_seeds = function(df){
   df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_error_correction > 0 & df_summary$all_error_correction + df_summary$all_failed == df_summary$num_trials,]$seed_classification = seed_class_bet_hedged_error_correction
   df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_error_correction > 0 & df_summary$all_learning > 0 & df_summary$all_error_correction + df_summary$all_learning + df_summary$all_failed == df_summary$num_trials,]$seed_classification = seed_class_bet_hedged_mixed
   df_summary[df_summary$seed_classification == seed_class_other & df_summary$small > 0,]$seed_classification = seed_class_small
+  df_summary[df_summary$seed_classification == seed_class_other & df_summary$all_failed == df_summary$num_trials,]$seed_classification = seed_class_small
   
   # Add seed classification to original data frame 
   df$seed_classification = seed_class_other
