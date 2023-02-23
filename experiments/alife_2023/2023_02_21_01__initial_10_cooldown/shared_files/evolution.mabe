@@ -1,12 +1,12 @@
-//AnalyzeSystematics sys{
-//  data_file_name = "phylo/phylogenetic_data.csv";// Filename for systematics data file.
-//  data_updates = "0:1:-1";      // Which updates should we output a data from the phylogeny?
-//  snapshot_file_root_name = "phylo/phylogeny";// Filename for snapshot files (will have update number and .csv appended to end)
-//  snapshot_updates = "0:0:0";  // Which updates should we output a snapshot of the phylogeny?
-//  store_ancestors = 1;          // Store all ancestors of extant taxa.(1 = TRUE)
-//  store_outside = 0;            // Store all taxa that ever existed.(1 = TRUE)
-//  taxon_info = "genome";        // Which trait should we identify unique taxa based on
-//};
+AnalyzeSystematics sys{
+  data_file_name = "phylo/phylogenetic_data.csv";// Filename for systematics data file.
+  data_updates = "0:1:-1";      // Which updates should we output a data from the phylogeny?
+  snapshot_file_root_name = "phylo/phylogeny";// Filename for snapshot files (will have update number and .csv appended to end)
+  snapshot_updates = "0:0:0";  // Which updates should we output a snapshot of the phylogeny?
+  store_ancestors = 1;          // Store all ancestors of extant taxa.(1 = TRUE)
+  store_outside = 0;            // Store all taxa that ever existed.(1 = TRUE)
+  taxon_info = "genome";        // Which trait should we identify unique taxa based on
+};
 
 Var dominant_genome;
 DataFile fit_file { filename="fitness.csv"; };
@@ -74,7 +74,7 @@ Var avg_gen;
   max_file.WRITE();
   avg_gen = main_pop.CALC_MEAN("generation");
   IF(ud >= max_updates){ 
-    //sys.SNAPSHOT();
+    sys.SNAPSHOT();
     EXIT();
   }
 };
