@@ -2,6 +2,7 @@ Var num_trials = 100;
 Var cur_genome;
 Var trial_num;
 Var did_repro = "False";
+Var repro_updates = 0;
 
 DataFile fit_file { filename="single_org_fitness.csv"; };
 fit_file.ADD_COLUMN("trial_number", "trial_num" );
@@ -25,6 +26,7 @@ fit_file.ADD_COLUMN("doors_correct_2", "main_pop.CALC_MEAN('doors_correct_2')" )
 fit_file.ADD_COLUMN("doors_taken_3",   "main_pop.CALC_MEAN('doors_taken_3')" );
 fit_file.ADD_COLUMN("doors_correct_3", "main_pop.CALC_MEAN('doors_correct_3')" );
 fit_file.ADD_COLUMN("did_repro",       "did_repro");
+fit_file.ADD_COLUMN("repro_updates",   "repro_updates");
 
 @START() {
   PRINT("random_seed = ", random_seed, "\n");  // Print seed at run start.
@@ -33,8 +35,10 @@ fit_file.ADD_COLUMN("did_repro",       "did_repro");
     Population empty_pop;  
     main_pop.REPLACE_WITH(empty_pop);
     main_pop.INJECT("avida_org", 1);    // Inject organism 
-    Var repro_updates = scheduler.EVAL(main_pop, 4999, 1); // Evaluate organism   
-    IF(repro_updates >= 4999){ // No repro
+    Var genome_length = main_pop.CALC_MEAN("genome_length");
+    Var death_update = genome_length * scheduler.death_age;
+    repro_updates = scheduler.EVAL(main_pop, death_update, 1); // Evaluate organism   
+    IF(repro_updates >= (death_update - 1)){ // No repro (-1 for starting at 0)
       did_repro = "False";
       fit_file.WRITE();
       PRINT("[DOORS] break");
@@ -46,6 +50,7 @@ fit_file.ADD_COLUMN("did_repro",       "did_repro");
 };
 @BEFORE_REPRO(){
   did_repro="True";
+  repro_updates = scheduler.GET_EVAL_UPDATE();
   fit_file.WRITE();
   PRINT("[DOORS] break");
 }

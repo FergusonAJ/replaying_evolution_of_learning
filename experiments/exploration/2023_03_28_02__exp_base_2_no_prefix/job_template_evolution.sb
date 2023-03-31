@@ -77,6 +77,7 @@ python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${DOMINANT_GENOME} final_dom
 time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\" -s eval_doors.verbose=1 > final_org_eval.txt
 grep final_org_eval.txt -e "\[DOORS\]" > doors.txt
 python3 ${SCRATCH_FILE_DIR}/plot_doors.py
+mv single_org_fitness.csv final_dom_org_fitness.csv
 
 # Analyze orgs along the dominant lineage
 Rscript ${SCRATCH_FILE_DIR}/phylo_analysis.R

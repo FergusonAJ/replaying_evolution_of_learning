@@ -13,7 +13,7 @@ df = NA
 
 for(i in 1:200){
     cat(i)
-    filename = paste0(reps_dir, '/', i, '/single_org_fitness.csv')
+    filename = paste0(reps_dir, '/', i, '/final_dom_org_fitness.csv')
     if(!file.exists(filename)){
         cat('(X)')
         next
