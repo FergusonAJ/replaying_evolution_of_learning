@@ -4,9 +4,8 @@ library(dplyr)
 
 # NOTE: File expects constant_vars__three_cues_one_set.R to have already been sources
 
-
 internal_collect_seed_classification = function(v, df_summary){
-  seed = v['seed']
+  seed = as.numeric(v['seed'])
   df_summary[df_summary$seed == seed,]$seed_classification
 }
 
@@ -150,11 +149,17 @@ summarize_final_dominant_org_data = function(df){
     df = classify_individual_trials(df)
     df = classify_seeds(df)
   }
+  if(!'did_repro' %in% colnames(df)){
+    df$did_repro = NA
+  }
+  df$did_repro_logical = df$did_repro == 'True'
+  if(!'repro_updates' %in% colnames(df)){
+    df$repro_updates = -1
+  }
   df_grouped = NA
   if('depth' %in% colnames(df)){
     df_grouped = dplyr::group_by(df, depth, seed)
-  }
-  else{
+  } else{
     df_grouped = dplyr::group_by(df, seed)
   }
   df_summary = dplyr::summarize(df_grouped, count = dplyr::n(), 
@@ -167,7 +172,9 @@ summarize_final_dominant_org_data = function(df){
                                 correct_exits_mean = mean(correct_exits), correct_exits_max = max(correct_exits), correct_exits_min = min(correct_exits),
                                 incorrect_exits_mean = mean(incorrect_exits), incorrect_exits_max = max(incorrect_exits), incorrect_exits_min = min(incorrect_exits),
                                 genome_length = mean(genome_length),
-                                seed_classification = first(seed_classification)
+                                seed_classification = first(seed_classification),
+                                did_repro_frac = mean(did_repro_logical),
+                                repro_updates_mean = mean(repro_updates), repro_updates_max = max(repro_updates), repro_updates_min = min(repro_updates)
   )
   df_summary$seed_classification_factor = factor(df_summary$seed_classification, levels = seed_classifcation_order_vec)
   return(df_summary)
