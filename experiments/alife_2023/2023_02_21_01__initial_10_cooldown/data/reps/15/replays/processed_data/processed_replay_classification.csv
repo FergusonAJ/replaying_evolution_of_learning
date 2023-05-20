@@ -1,0 +1,491 @@
+"","depth","seed_classification","count","accuracy_mean_mean","merit_mean_mean","seed_classification_factor","frac"
+"1",0,"Bet-hedged error correction",2,0.7213823025,7.23785685138168e+21,"Bet-hedged error correction",0.01
+"2",0,"Bet-hedged learning",15,0.959686290666667,1.29635740268542e+27,"Bet-hedged learning",0.075
+"3",0,"Error correction",140,0.809010700642857,1.45131323127566e+27,"Error correction",0.7
+"4",0,"Learning",16,0.995198848125,1.47105942861603e+28,"Learning",0.08
+"5",0,"Low activity",24,0.924647054583333,12.4387586958333,"Low activity",0.12
+"6",0,"Mixed bet hedging",3,0.887812083333333,7.09119182648092e+26,"Mixed bet hedging",0.015
+"7",50,"Bet-hedged error correction",1,0.79186076,9.76647044754e+21,"Bet-hedged error correction",0.02
+"8",50,"Bet-hedged learning",3,0.96451252,7.75262030666667e+20,"Bet-hedged learning",0.06
+"9",50,"Error correction",34,0.810416782058824,6.17932784905749e+26,"Error correction",0.68
+"10",50,"Learning",4,1,4.92814937293818e+28,"Learning",0.08
+"11",50,"Low activity",7,0.942022648571429,12.2806176714286,"Low activity",0.14
+"12",50,"Mixed bet hedging",1,0.87688927,48261452250000,"Mixed bet hedging",0.02
+"13",100,"Bet-hedged learning",1,0.98875,1.4618369936774e+21,"Bet-hedged learning",0.02
+"14",100,"Error correction",38,0.812746246842105,4.58763056992407e+25,"Error correction",0.76
+"15",100,"Learning",6,0.99184321,1.98552390794241e+28,"Learning",0.12
+"16",100,"Mixed bet hedging",5,0.930617768,2.25655332463286e+28,"Mixed bet hedging",0.1
+"17",150,"Bet-hedged learning",5,0.987494808,2.232795444812e+18,"Bet-hedged learning",0.1
+"18",150,"Error correction",28,0.812863395357143,3.8368615026206e+26,"Error correction",0.56
+"19",150,"Learning",13,0.998461777692308,1.83116963658188e+28,"Learning",0.26
+"20",150,"Mixed bet hedging",4,0.91295097,1.47881414243446e+28,"Mixed bet hedging",0.08
+"21",200,"Bet-hedged learning",4,0.9212676175,2.53421082402592e+20,"Bet-hedged learning",0.08
+"22",200,"Error correction",28,0.814677855714286,4.99559778835178e+26,"Error correction",0.56
+"23",200,"Learning",16,0.998960610625,2.28143071408641e+28,"Learning",0.32
+"24",200,"Mixed bet hedging",2,0.895843555,6643258627880900,"Mixed bet hedging",0.04
+"25",250,"Bet-hedged learning",2,0.92865881,2664502585000182,"Bet-hedged learning",0.04
+"26",250,"Error correction",30,0.813772962,9.06351392898259e+26,"Error correction",0.6
+"27",250,"Learning",16,0.99802725875,1.26966314332418e+28,"Learning",0.32
+"28",250,"Mixed bet hedging",2,0.89016854,3.54013008113294e+27,"Mixed bet hedging",0.04
+"29",251,"Bet-hedged learning",2,0.974953845,674395296001162112,"Bet-hedged learning",0.04
+"30",251,"Error correction",36,0.810007472777778,1.83122434821109e+27,"Error correction",0.72
+"31",251,"Learning",11,0.99436906,5.63776510459109e+23,"Learning",0.22
+"32",251,"Mixed bet hedging",1,0.89383525,34971314713600,"Mixed bet hedging",0.02
+"33",252,"Error correction",36,0.800936256388889,3.69858951757433e+27,"Error correction",0.72
+"34",252,"Learning",11,0.994017759090909,1.85731290530048e+27,"Learning",0.22
+"35",252,"Mixed bet hedging",3,0.93292173,7.89584650569991e+26,"Mixed bet hedging",0.06
+"36",253,"Error correction",29,0.802808415172414,3.93685770431352e+27,"Error correction",0.58
+"37",253,"Learning",18,0.996862647222222,7.6536727072666e+27,"Learning",0.36
+"38",253,"Mixed bet hedging",3,0.942804763333333,3.35597945677465e+28,"Mixed bet hedging",0.06
+"39",254,"Bet-hedged learning",2,0.9925,9.622995498965e+19,"Bet-hedged learning",0.04
+"40",254,"Error correction",33,0.803212311818182,2.79751968992422e+26,"Error correction",0.66
+"41",254,"Learning",11,1,1.09381804246775e+28,"Learning",0.22
+"42",254,"Mixed bet hedging",4,0.9176213625,9.19553373329034e+24,"Mixed bet hedging",0.08
+"43",255,"Bet-hedged learning",1,0.88,9.4841291561627e+27,"Bet-hedged learning",0.02
+"44",255,"Error correction",30,0.817240112666667,9.72865945566672e+26,"Error correction",0.6
+"45",255,"Learning",16,0.997580794375,2.54857149075985e+28,"Learning",0.32
+"46",255,"Mixed bet hedging",3,0.92475633,1.171251843231e+25,"Mixed bet hedging",0.06
+"47",256,"Bet-hedged learning",3,0.932019130666667,1.1830500150113e+27,"Bet-hedged learning",0.06
+"48",256,"Error correction",38,0.795426338157895,4.16665478256527e+25,"Error correction",0.76
+"49",256,"Learning",9,0.993842167777778,4.00079210340261e+28,"Learning",0.18
+"50",257,"Bet-hedged learning",2,0.975669765,1.30302305387715e+21,"Bet-hedged learning",0.04
+"51",257,"Error correction",33,0.804973704848485,3.67327383516599e+27,"Error correction",0.66
+"52",257,"Learning",12,0.993504105,2.60978147383511e+28,"Learning",0.24
+"53",257,"Mixed bet hedging",3,0.9490703,2.13088290513917e+20,"Mixed bet hedging",0.06
+"54",258,"Bet-hedged learning",1,0.865,45808630000.27,"Bet-hedged learning",0.02
+"55",258,"Error correction",28,0.812250570357143,6.69994158684613e+25,"Error correction",0.56
+"56",258,"Learning",19,0.998176438947368,6.63415270223691e+27,"Learning",0.38
+"57",258,"Mixed bet hedging",2,0.91644338,2.45714886371509e+27,"Mixed bet hedging",0.04
+"58",259,"Bet-hedged error correction",1,0.83060961,459962955234000,"Bet-hedged error correction",0.02
+"59",259,"Error correction",33,0.809310731515152,2.16038415668745e+27,"Error correction",0.66
+"60",259,"Learning",15,0.999140390666667,1.23962296054884e+28,"Learning",0.3
+"61",259,"Mixed bet hedging",1,0.88200461,2.34116826622e+19,"Mixed bet hedging",0.02
+"62",260,"Error correction",34,0.806775622647059,6.43113928177133e+26,"Error correction",0.68
+"63",260,"Learning",15,0.998434436666667,1.60537254727593e+28,"Learning",0.3
+"64",260,"Mixed bet hedging",1,0.92203405,6603576903500,"Mixed bet hedging",0.02
+"65",261,"Bet-hedged error correction",1,0.79648177,81751714210000.3,"Bet-hedged error correction",0.02
+"66",261,"Bet-hedged learning",1,0.9353864,3.2028731e+15,"Bet-hedged learning",0.02
+"67",261,"Error correction",31,0.817418280967742,2.30891112344888e+26,"Error correction",0.62
+"68",261,"Learning",15,0.999545299333333,2.01890871883051e+27,"Learning",0.3
+"69",261,"Mixed bet hedging",2,0.907924035,1.23843620749603e+24,"Mixed bet hedging",0.04
+"70",262,"Bet-hedged error correction",2,0.735259465,7.41687593514495e+25,"Bet-hedged error correction",0.04
+"71",262,"Error correction",39,0.800448524615385,2.45167125719324e+26,"Error correction",0.78
+"72",262,"Learning",9,0.999298812222222,1.23668487916791e+28,"Learning",0.18
+"73",263,"Error correction",33,0.807750949090909,2.30459534955246e+27,"Error correction",0.66
+"74",263,"Learning",16,0.99241855,6.65485815062156e+27,"Learning",0.32
+"75",263,"Mixed bet hedging",1,0.91868483,2.9720592848878e+21,"Mixed bet hedging",0.02
+"76",264,"Error correction",28,0.805983033928571,6.56237579219625e+25,"Error correction",0.56
+"77",264,"Learning",21,0.996581867619048,2.27347350155326e+28,"Learning",0.42
+"78",264,"Mixed bet hedging",1,0.86096164,1.77777201486221e+28,"Mixed bet hedging",0.02
+"79",265,"Error correction",30,0.805506255666667,3.20303031041283e+27,"Error correction",0.6
+"80",265,"Learning",19,0.998755526842105,7.50637086695406e+27,"Learning",0.38
+"81",265,"Mixed bet hedging",1,0.91372512,4.85490432114e+19,"Mixed bet hedging",0.02
+"82",266,"Error correction",38,0.804614799210526,2.29639614685916e+27,"Error correction",0.76
+"83",266,"Learning",10,0.999168751,1.5867342672165e+28,"Learning",0.2
+"84",266,"Mixed bet hedging",2,0.91746151,26432644023000,"Mixed bet hedging",0.04
+"85",267,"Bet-hedged learning",1,0.87,8.6110874e+14,"Bet-hedged learning",0.02
+"86",267,"Error correction",37,0.809968809189189,9.28374911622901e+26,"Error correction",0.74
+"87",267,"Learning",10,0.98866805,6.94947709792886e+25,"Learning",0.2
+"88",267,"Mixed bet hedging",2,0.945468565,5.92713846271168e+26,"Mixed bet hedging",0.04
+"89",268,"Bet-hedged learning",3,0.939219706666667,98336157334162259968,"Bet-hedged learning",0.06
+"90",268,"Error correction",34,0.806843241176471,1.35508105851223e+26,"Error correction",0.68
+"91",268,"Learning",12,0.999492434166667,2.23397173746939e+28,"Learning",0.24
+"92",268,"Mixed bet hedging",1,0.93283667,3.09661510101711e+27,"Mixed bet hedging",0.02
+"93",269,"Bet-hedged error correction",1,0.81797994,690666413500000,"Bet-hedged error correction",0.02
+"94",269,"Bet-hedged learning",1,0.97109741,1.787512311e+18,"Bet-hedged learning",0.02
+"95",269,"Error correction",34,0.798233335294118,2.55591756408726e+23,"Error correction",0.68
+"96",269,"Learning",13,0.992992984615385,4.7578051560931e+26,"Learning",0.26
+"97",269,"Low activity",1,0.9451122,127.211321,"Low activity",0.02
+"98",270,"Error correction",31,0.800490011290323,3.90143481306923e+27,"Error correction",0.62
+"99",270,"Learning",19,0.993912610526316,1.96603783106422e+28,"Learning",0.38
+"100",271,"Bet-hedged error correction",1,0.82661073,3728897700.23,"Bet-hedged error correction",0.02
+"101",271,"Error correction",31,0.810168261612903,1.74217381929047e+27,"Error correction",0.62
+"102",271,"Learning",17,0.992743123529412,1.47962551234877e+28,"Learning",0.34
+"103",271,"Mixed bet hedging",1,0.8946761,1.35609239790895e+20,"Mixed bet hedging",0.02
+"104",272,"Bet-hedged error correction",1,0.61553648,44659720600.27,"Bet-hedged error correction",0.02
+"105",272,"Bet-hedged learning",2,0.904,108682864457053104,"Bet-hedged learning",0.04
+"106",272,"Error correction",31,0.802334633548387,2.14690829095957e+26,"Error correction",0.62
+"107",272,"Learning",13,0.993521246153846,3.7375288325784e+28,"Learning",0.26
+"108",272,"Mixed bet hedging",3,0.9152384,1.21483380964249e+23,"Mixed bet hedging",0.06
+"109",273,"Error correction",37,0.804193574864865,6.89401784721389e+26,"Error correction",0.74
+"110",273,"Learning",10,0.998636643,2.8659139570518e+28,"Learning",0.2
+"111",273,"Mixed bet hedging",3,0.918204216666667,3.65407126129372e+22,"Mixed bet hedging",0.06
+"112",274,"Error correction",39,0.807719766666667,3.3146485077431e+27,"Error correction",0.78
+"113",274,"Learning",8,0.99925175625,2.96863687793473e+28,"Learning",0.16
+"114",274,"Low activity",1,0.93601739,56.7932289,"Low activity",0.02
+"115",274,"Mixed bet hedging",2,0.9184643,1.26246403987394e+27,"Mixed bet hedging",0.04
+"116",275,"Bet-hedged learning",2,0.927762995,94599463822839496704,"Bet-hedged learning",0.04
+"117",275,"Error correction",39,0.798154352564103,2.89724707179836e+27,"Error correction",0.78
+"118",275,"Learning",7,0.998085991428571,3.26833602978938e+27,"Learning",0.14
+"119",275,"Mixed bet hedging",2,0.898209285,4.02021122533502e+22,"Mixed bet hedging",0.04
+"120",276,"Bet-hedged learning",1,0.991875,685041630000004,"Bet-hedged learning",0.02
+"121",276,"Error correction",37,0.805077325135135,2.08190613609084e+27,"Error correction",0.74
+"122",276,"Learning",10,0.999149669,2.82895937516677e+28,"Learning",0.2
+"123",276,"Mixed bet hedging",2,0.93547887,4.82433992753678e+28,"Mixed bet hedging",0.04
+"124",277,"Bet-hedged error correction",1,0.72268593,1281020437.01562,"Bet-hedged error correction",0.02
+"125",277,"Bet-hedged learning",1,0.95973084,423.522008,"Bet-hedged learning",0.02
+"126",277,"Error correction",36,0.800442177222222,2.14353100728626e+27,"Error correction",0.72
+"127",277,"Learning",9,0.994768322222222,2.84876364156748e+28,"Learning",0.18
+"128",277,"Mixed bet hedging",3,0.920878033333333,2.36871579860259e+20,"Mixed bet hedging",0.06
+"129",278,"Error correction",31,0.79399883483871,3.94454473472092e+27,"Error correction",0.62
+"130",278,"Learning",16,0.998977964375,2.47565298158908e+28,"Learning",0.32
+"131",278,"Mixed bet hedging",3,0.92624833,7.19129740941033e+22,"Mixed bet hedging",0.06
+"132",279,"Bet-hedged learning",1,0.825,2.4121596462e+21,"Bet-hedged learning",0.02
+"133",279,"Error correction",1,0.95468661,6.47243050461643e+28,"Error correction",0.02
+"134",279,"Learning",47,0.999300285957447,2.67797334831687e+28,"Learning",0.94
+"135",279,"Low activity",1,0.94259077,76.090784,"Low activity",0.02
+"136",280,"Bet-hedged error correction",1,0.83933543,2.21569172562073e+22,"Bet-hedged error correction",0.02
+"137",280,"Error correction",2,0.78520103,1.167634672767e+22,"Error correction",0.04
+"138",280,"Learning",47,0.998937957021277,1.19846670431596e+28,"Learning",0.94
+"139",281,"Bet-hedged learning",2,0.885,2.11739664403122e+28,"Bet-hedged learning",0.04
+"140",281,"Error correction",2,0.74136723,5.95048488136517e+24,"Error correction",0.04
+"141",281,"Learning",46,0.999815311304348,2.56711082836677e+28,"Learning",0.92
+"142",282,"Bet-hedged learning",1,0.825,2.2227456e+17,"Bet-hedged learning",0.02
+"143",282,"Error correction",5,0.769591654,1.32592027860338e+20,"Error correction",0.1
+"144",282,"Learning",43,0.999307955348837,1.59943146804355e+28,"Learning",0.86
+"145",282,"Mixed bet hedging",1,0.99987002,1.18305e+29,"Mixed bet hedging",0.02
+"146",283,"Bet-hedged learning",1,0.845,1.1898871e+20,"Bet-hedged learning",0.02
+"147",283,"Error correction",4,0.8836098825,5.2266531317986e+28,"Error correction",0.08
+"148",283,"Learning",44,0.999703094772727,3.60864409221804e+28,"Learning",0.88
+"149",283,"Mixed bet hedging",1,0.90077603,612305663000,"Mixed bet hedging",0.02
+"150",284,"Bet-hedged learning",4,0.8923071275,1.01941090102695e+28,"Bet-hedged learning",0.08
+"151",284,"Error correction",5,0.784940304,1.00494934866065e+26,"Error correction",0.1
+"152",284,"Learning",38,0.999793292368421,3.50390743815432e+28,"Learning",0.76
+"153",284,"Mixed bet hedging",3,0.934568683333333,3.83836897698937e+28,"Mixed bet hedging",0.06
+"154",285,"Bet-hedged learning",3,0.89060389,3.93854456978384e+25,"Bet-hedged learning",0.06
+"155",285,"Learning",47,0.998443161914894,2.45917083193099e+28,"Learning",0.94
+"156",286,"Learning",49,0.999816546326531,2.62633194557267e+28,"Learning",0.98
+"157",286,"Mixed bet hedging",1,0.89199364,1.1136818499e+29,"Mixed bet hedging",0.02
+"158",287,"Learning",50,0.9995936576,2.64647919473819e+28,"Learning",1
+"159",288,"Bet-hedged learning",1,0.885,2.4717133e+15,"Bet-hedged learning",0.02
+"160",288,"Error correction",1,0.99677745,1.159892496e+29,"Error correction",0.02
+"161",288,"Learning",48,0.99991817125,3.14140917444484e+28,"Learning",0.96
+"162",289,"Bet-hedged learning",2,0.855,4.2375153763375e+27,"Bet-hedged learning",0.04
+"163",289,"Learning",47,0.999059912553191,3.39742851193626e+28,"Learning",0.94
+"164",289,"Mixed bet hedging",1,0.99874081,1.0213100311213e+29,"Mixed bet hedging",0.02
+"165",290,"Error correction",2,0.80936047,1.70984942153374e+23,"Error correction",0.04
+"166",290,"Learning",47,0.999860413829787,2.76524129641047e+28,"Learning",0.94
+"167",290,"Mixed bet hedging",1,0.95827757,8.49035467816353e+28,"Mixed bet hedging",0.02
+"168",291,"Bet-hedged learning",1,0.99994536,1.0805647717668e+29,"Bet-hedged learning",0.02
+"169",291,"Error correction",1,0.82284765,1518567910000,"Error correction",0.02
+"170",291,"Learning",48,0.99991196375,2.51948691656673e+28,"Learning",0.96
+"171",292,"Bet-hedged learning",1,0.85,1.644939921e+19,"Bet-hedged learning",0.02
+"172",292,"Learning",48,0.999849336875,3.2304717569786e+28,"Learning",0.96
+"173",292,"Mixed bet hedging",1,0.99569509,7.84775269529357e+27,"Mixed bet hedging",0.02
+"174",293,"Learning",50,0.999877619,2.6684650027888e+28,"Learning",1
+"175",294,"Bet-hedged learning",1,0.935,3.00963405e+20,"Bet-hedged learning",0.02
+"176",294,"Learning",49,0.999892092244898,2.93637127464378e+28,"Learning",0.98
+"177",295,"Learning",50,0.9990963936,2.7858922151622e+28,"Learning",1
+"178",296,"Bet-hedged learning",4,0.87875002,7.49728479644815e+22,"Bet-hedged learning",0.08
+"179",296,"Learning",46,0.999770950217391,3.28111837086095e+28,"Learning",0.92
+"180",297,"Bet-hedged learning",1,0.885,2.1528932e+19,"Bet-hedged learning",0.02
+"181",297,"Error correction",1,0.99757034,1.0809321736434e+29,"Error correction",0.02
+"182",297,"Learning",47,0.999974347021277,1.99663255079579e+28,"Learning",0.94
+"183",297,"Mixed bet hedging",1,0.99692024,9.778886506e+28,"Mixed bet hedging",0.02
+"184",298,"Bet-hedged learning",2,0.914166695,6.19505630895602e+27,"Bet-hedged learning",0.04
+"185",298,"Error correction",3,0.87913799,3.67846058930668e+28,"Error correction",0.06
+"186",298,"Learning",45,0.997862794666667,4.05512267888915e+28,"Learning",0.9
+"187",299,"Bet-hedged learning",2,0.8725,4.631458849e+18,"Bet-hedged learning",0.04
+"188",299,"Error correction",2,0.828282735,767105168360055040,"Error correction",0.04
+"189",299,"Learning",46,0.999748672826087,3.17297667623868e+28,"Learning",0.92
+"190",300,"Bet-hedged learning",2,0.905,1.68109156578578e+25,"Bet-hedged learning",0.04
+"191",300,"Error correction",1,0.94642887,1.04962864425614e+29,"Error correction",0.02
+"192",300,"Learning",46,0.999895171086956,3.1987199467099e+28,"Learning",0.92
+"193",300,"Mixed bet hedging",1,0.99803434,1.1074535543496e+29,"Mixed bet hedging",0.02
+"194",350,"Bet-hedged learning",5,0.87300002,5.63776013629076e+27,"Bet-hedged learning",0.1
+"195",350,"Learning",44,0.999943875,2.91279714281713e+28,"Learning",0.88
+"196",350,"Mixed bet hedging",1,0.99783409,1.1267979355613e+29,"Mixed bet hedging",0.02
+"197",400,"Bet-hedged learning",1,0.85,3.991834563e+21,"Bet-hedged learning",0.02
+"198",400,"Learning",47,1,1.32598774524001e+28,"Learning",0.94
+"199",400,"Mixed bet hedging",2,0.99798868,1.06420536819456e+29,"Mixed bet hedging",0.04
+"200",450,"Bet-hedged learning",4,0.87625,3.3838888224746e+23,"Bet-hedged learning",0.08
+"201",450,"Learning",46,0.999908856956522,1.15460834622635e+28,"Learning",0.92
+"202",500,"Learning",50,0.9999472518,3.26476397337145e+27,"Learning",1
+"203",550,"Learning",50,0.9999542416,8.77499127209841e+27,"Learning",1
+"204",600,"Error correction",1,0.79884402,8343616470759199744,"Error correction",0.0204081632653061
+"205",600,"Learning",48,1,8.07821518332683e+27,"Learning",0.979591836734694
+"206",650,"Learning",50,1,6.35614701212545e+27,"Learning",1
+"207",700,"Bet-hedged learning",1,1,7.8619749e+18,"Bet-hedged learning",0.02
+"208",700,"Learning",49,1,2.33622052003623e+27,"Learning",0.98
+"209",750,"Learning",49,0.999950016122449,1.74285224874553e+28,"Learning",0.98
+"210",750,"Low activity",1,0.91004547,5.8639739,"Low activity",0.02
+"211",800,"Bet-hedged learning",1,0.87,1.07697776e+19,"Bet-hedged learning",0.02
+"212",800,"Learning",49,0.999996393265306,3.04405246579799e+28,"Learning",0.98
+"213",850,"Learning",48,0.999998920625,4.90954705720598e+28,"Learning",0.96
+"214",850,"Mixed bet hedging",2,0.931132385,5.38982203926857e+28,"Mixed bet hedging",0.04
+"215",900,"Learning",49,1,4.67463528643158e+28,"Learning",1
+"216",950,"Learning",49,1,3.87209583669404e+28,"Learning",1
+"217",1000,"Learning",49,1,3.73872041153447e+28,"Learning",1
+"218",0,"Other",0,NA,NA,"Other",0
+"219",50,"Other",0,NA,NA,"Other",0
+"220",100,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"221",100,"Other",0,NA,NA,"Other",0
+"222",100,"Low activity",0,NA,NA,"Low activity",0
+"223",150,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"224",150,"Other",0,NA,NA,"Other",0
+"225",150,"Low activity",0,NA,NA,"Low activity",0
+"226",200,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"227",200,"Other",0,NA,NA,"Other",0
+"228",200,"Low activity",0,NA,NA,"Low activity",0
+"229",250,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"230",250,"Other",0,NA,NA,"Other",0
+"231",250,"Low activity",0,NA,NA,"Low activity",0
+"232",251,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"233",251,"Other",0,NA,NA,"Other",0
+"234",251,"Low activity",0,NA,NA,"Low activity",0
+"235",252,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"236",252,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"237",252,"Other",0,NA,NA,"Other",0
+"238",252,"Low activity",0,NA,NA,"Low activity",0
+"239",253,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"240",253,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"241",253,"Other",0,NA,NA,"Other",0
+"242",253,"Low activity",0,NA,NA,"Low activity",0
+"243",254,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"244",254,"Other",0,NA,NA,"Other",0
+"245",254,"Low activity",0,NA,NA,"Low activity",0
+"246",255,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"247",255,"Other",0,NA,NA,"Other",0
+"248",255,"Low activity",0,NA,NA,"Low activity",0
+"249",256,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"250",256,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"251",256,"Other",0,NA,NA,"Other",0
+"252",256,"Low activity",0,NA,NA,"Low activity",0
+"253",257,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"254",257,"Other",0,NA,NA,"Other",0
+"255",257,"Low activity",0,NA,NA,"Low activity",0
+"256",258,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"257",258,"Other",0,NA,NA,"Other",0
+"258",258,"Low activity",0,NA,NA,"Low activity",0
+"259",259,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"260",259,"Other",0,NA,NA,"Other",0
+"261",259,"Low activity",0,NA,NA,"Low activity",0
+"262",260,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"263",260,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"264",260,"Other",0,NA,NA,"Other",0
+"265",260,"Low activity",0,NA,NA,"Low activity",0
+"266",261,"Other",0,NA,NA,"Other",0
+"267",261,"Low activity",0,NA,NA,"Low activity",0
+"268",262,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"269",262,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"270",262,"Other",0,NA,NA,"Other",0
+"271",262,"Low activity",0,NA,NA,"Low activity",0
+"272",263,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"273",263,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"274",263,"Other",0,NA,NA,"Other",0
+"275",263,"Low activity",0,NA,NA,"Low activity",0
+"276",264,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"277",264,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"278",264,"Other",0,NA,NA,"Other",0
+"279",264,"Low activity",0,NA,NA,"Low activity",0
+"280",265,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"281",265,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"282",265,"Other",0,NA,NA,"Other",0
+"283",265,"Low activity",0,NA,NA,"Low activity",0
+"284",266,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"285",266,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"286",266,"Other",0,NA,NA,"Other",0
+"287",266,"Low activity",0,NA,NA,"Low activity",0
+"288",267,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"289",267,"Other",0,NA,NA,"Other",0
+"290",267,"Low activity",0,NA,NA,"Low activity",0
+"291",268,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"292",268,"Other",0,NA,NA,"Other",0
+"293",268,"Low activity",0,NA,NA,"Low activity",0
+"294",269,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"295",269,"Other",0,NA,NA,"Other",0
+"296",270,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"297",270,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"298",270,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"299",270,"Other",0,NA,NA,"Other",0
+"300",270,"Low activity",0,NA,NA,"Low activity",0
+"301",271,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"302",271,"Other",0,NA,NA,"Other",0
+"303",271,"Low activity",0,NA,NA,"Low activity",0
+"304",272,"Other",0,NA,NA,"Other",0
+"305",272,"Low activity",0,NA,NA,"Low activity",0
+"306",273,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"307",273,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"308",273,"Other",0,NA,NA,"Other",0
+"309",273,"Low activity",0,NA,NA,"Low activity",0
+"310",274,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"311",274,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"312",274,"Other",0,NA,NA,"Other",0
+"313",275,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"314",275,"Other",0,NA,NA,"Other",0
+"315",275,"Low activity",0,NA,NA,"Low activity",0
+"316",276,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"317",276,"Other",0,NA,NA,"Other",0
+"318",276,"Low activity",0,NA,NA,"Low activity",0
+"319",277,"Other",0,NA,NA,"Other",0
+"320",277,"Low activity",0,NA,NA,"Low activity",0
+"321",278,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"322",278,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"323",278,"Other",0,NA,NA,"Other",0
+"324",278,"Low activity",0,NA,NA,"Low activity",0
+"325",279,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"326",279,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"327",279,"Other",0,NA,NA,"Other",0
+"328",280,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"329",280,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"330",280,"Other",0,NA,NA,"Other",0
+"331",280,"Low activity",0,NA,NA,"Low activity",0
+"332",281,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"333",281,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"334",281,"Other",0,NA,NA,"Other",0
+"335",281,"Low activity",0,NA,NA,"Low activity",0
+"336",282,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"337",282,"Other",0,NA,NA,"Other",0
+"338",282,"Low activity",0,NA,NA,"Low activity",0
+"339",283,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"340",283,"Other",0,NA,NA,"Other",0
+"341",283,"Low activity",0,NA,NA,"Low activity",0
+"342",284,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"343",284,"Other",0,NA,NA,"Other",0
+"344",284,"Low activity",0,NA,NA,"Low activity",0
+"345",285,"Error correction",0,NA,NA,"Error correction",0
+"346",285,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"347",285,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"348",285,"Other",0,NA,NA,"Other",0
+"349",285,"Low activity",0,NA,NA,"Low activity",0
+"350",286,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"351",286,"Error correction",0,NA,NA,"Error correction",0
+"352",286,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"353",286,"Other",0,NA,NA,"Other",0
+"354",286,"Low activity",0,NA,NA,"Low activity",0
+"355",287,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"356",287,"Error correction",0,NA,NA,"Error correction",0
+"357",287,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"358",287,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"359",287,"Other",0,NA,NA,"Other",0
+"360",287,"Low activity",0,NA,NA,"Low activity",0
+"361",288,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"362",288,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"363",288,"Other",0,NA,NA,"Other",0
+"364",288,"Low activity",0,NA,NA,"Low activity",0
+"365",289,"Error correction",0,NA,NA,"Error correction",0
+"366",289,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"367",289,"Other",0,NA,NA,"Other",0
+"368",289,"Low activity",0,NA,NA,"Low activity",0
+"369",290,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"370",290,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"371",290,"Other",0,NA,NA,"Other",0
+"372",290,"Low activity",0,NA,NA,"Low activity",0
+"373",291,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"374",291,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"375",291,"Other",0,NA,NA,"Other",0
+"376",291,"Low activity",0,NA,NA,"Low activity",0
+"377",292,"Error correction",0,NA,NA,"Error correction",0
+"378",292,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"379",292,"Other",0,NA,NA,"Other",0
+"380",292,"Low activity",0,NA,NA,"Low activity",0
+"381",293,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"382",293,"Error correction",0,NA,NA,"Error correction",0
+"383",293,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"384",293,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"385",293,"Other",0,NA,NA,"Other",0
+"386",293,"Low activity",0,NA,NA,"Low activity",0
+"387",294,"Error correction",0,NA,NA,"Error correction",0
+"388",294,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"389",294,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"390",294,"Other",0,NA,NA,"Other",0
+"391",294,"Low activity",0,NA,NA,"Low activity",0
+"392",295,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"393",295,"Error correction",0,NA,NA,"Error correction",0
+"394",295,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"395",295,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"396",295,"Other",0,NA,NA,"Other",0
+"397",295,"Low activity",0,NA,NA,"Low activity",0
+"398",296,"Error correction",0,NA,NA,"Error correction",0
+"399",296,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"400",296,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"401",296,"Other",0,NA,NA,"Other",0
+"402",296,"Low activity",0,NA,NA,"Low activity",0
+"403",297,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"404",297,"Other",0,NA,NA,"Other",0
+"405",297,"Low activity",0,NA,NA,"Low activity",0
+"406",298,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"407",298,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"408",298,"Other",0,NA,NA,"Other",0
+"409",298,"Low activity",0,NA,NA,"Low activity",0
+"410",299,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"411",299,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"412",299,"Other",0,NA,NA,"Other",0
+"413",299,"Low activity",0,NA,NA,"Low activity",0
+"414",300,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"415",300,"Other",0,NA,NA,"Other",0
+"416",300,"Low activity",0,NA,NA,"Low activity",0
+"417",350,"Error correction",0,NA,NA,"Error correction",0
+"418",350,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"419",350,"Other",0,NA,NA,"Other",0
+"420",350,"Low activity",0,NA,NA,"Low activity",0
+"421",400,"Error correction",0,NA,NA,"Error correction",0
+"422",400,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"423",400,"Other",0,NA,NA,"Other",0
+"424",400,"Low activity",0,NA,NA,"Low activity",0
+"425",450,"Error correction",0,NA,NA,"Error correction",0
+"426",450,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"427",450,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"428",450,"Other",0,NA,NA,"Other",0
+"429",450,"Low activity",0,NA,NA,"Low activity",0
+"430",500,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"431",500,"Error correction",0,NA,NA,"Error correction",0
+"432",500,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"433",500,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"434",500,"Other",0,NA,NA,"Other",0
+"435",500,"Low activity",0,NA,NA,"Low activity",0
+"436",550,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"437",550,"Error correction",0,NA,NA,"Error correction",0
+"438",550,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"439",550,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"440",550,"Other",0,NA,NA,"Other",0
+"441",550,"Low activity",0,NA,NA,"Low activity",0
+"442",600,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"443",600,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"444",600,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"445",600,"Other",0,NA,NA,"Other",0
+"446",600,"Low activity",0,NA,NA,"Low activity",0
+"447",650,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"448",650,"Error correction",0,NA,NA,"Error correction",0
+"449",650,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"450",650,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"451",650,"Other",0,NA,NA,"Other",0
+"452",650,"Low activity",0,NA,NA,"Low activity",0
+"453",700,"Error correction",0,NA,NA,"Error correction",0
+"454",700,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"455",700,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"456",700,"Other",0,NA,NA,"Other",0
+"457",700,"Low activity",0,NA,NA,"Low activity",0
+"458",750,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"459",750,"Error correction",0,NA,NA,"Error correction",0
+"460",750,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"461",750,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"462",750,"Other",0,NA,NA,"Other",0
+"463",800,"Error correction",0,NA,NA,"Error correction",0
+"464",800,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"465",800,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"466",800,"Other",0,NA,NA,"Other",0
+"467",800,"Low activity",0,NA,NA,"Low activity",0
+"468",850,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"469",850,"Error correction",0,NA,NA,"Error correction",0
+"470",850,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"471",850,"Other",0,NA,NA,"Other",0
+"472",850,"Low activity",0,NA,NA,"Low activity",0
+"473",900,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"474",900,"Error correction",0,NA,NA,"Error correction",0
+"475",900,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"476",900,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"477",900,"Other",0,NA,NA,"Other",0
+"478",900,"Low activity",0,NA,NA,"Low activity",0
+"479",950,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"480",950,"Error correction",0,NA,NA,"Error correction",0
+"481",950,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"482",950,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"483",950,"Other",0,NA,NA,"Other",0
+"484",950,"Low activity",0,NA,NA,"Low activity",0
+"485",1000,"Bet-hedged learning",0,NA,NA,"Bet-hedged learning",0
+"486",1000,"Error correction",0,NA,NA,"Error correction",0
+"487",1000,"Bet-hedged error correction",0,NA,NA,"Bet-hedged error correction",0
+"488",1000,"Mixed bet hedging",0,NA,NA,"Mixed bet hedging",0
+"489",1000,"Other",0,NA,NA,"Other",0
+"490",1000,"Low activity",0,NA,NA,"Low activity",0

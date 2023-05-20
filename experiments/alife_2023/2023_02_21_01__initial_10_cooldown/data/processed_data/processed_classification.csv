@@ -1,0 +1,7 @@
+"","seed_classification","count","accuracy_mean_mean","merit_mean_mean","seed_classification_factor"
+"1","Bet-hedged error correction",2,0.7213823025,7.23785685138168e+21,"Bet-hedged error correction"
+"2","Bet-hedged learning",15,0.959686290666667,1.29635740268542e+27,"Bet-hedged learning"
+"3","Error correction",140,0.809010700642857,1.45131323127566e+27,"Error correction"
+"4","Learning",16,0.995198848125,1.47105942861603e+28,"Learning"
+"5","Low activity",24,0.924647054583333,12.4387586958333,"Low activity"
+"6","Mixed bet hedging",3,0.887812083333333,7.09119182648092e+26,"Mixed bet hedging"
