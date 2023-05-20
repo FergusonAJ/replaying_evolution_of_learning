@@ -50,6 +50,11 @@ df[df$seed == 15 & df$depth %in% c(250,300),]$is_targeted = T
 mask_initial = df$is_initial
 mask_targeted = df$is_targeted
 
+margin_top = 0.2
+point_size = 1.5
+font_size_small = 12
+font_size_large = 14
+
 ggplot(df, aes(x=depth)) + 
       #geom_vline(aes(xintercept = focal_target), linetype = 'dotted') +
       geom_line(mapping=aes(y = frac*100), size = 1.05) + 
@@ -63,13 +68,11 @@ ggplot(df, aes(x=depth)) +
       ylab('Percentage of replays that evolve learning') + 
       labs(color = 'Classification') +
       labs(fill = 'Classification') +
-      theme(axis.text = element_text(size = 16)) +
-      theme(axis.title = element_text(size = 18)) +
+      theme(axis.text = element_text(size = font_size_small)) +
+      theme(axis.title = element_text(size = font_size_large)) +
       theme(legend.position = 'none') + 
       facet_grid(rows = vars(lineage_name), cols = vars(is_initial), scales = 'free_x')
 
-margin_top = 0.2
-point_size = 1.5
 if(T){
   ggp_4_init = ggplot(df[mask_initial & df$seed == 4,], aes(x=depth)) + 
       annotate("rect", xmin=focal_start_map['4'], xmax=focal_stop_map['4'], ymin=-Inf, ymax=Inf, alpha=0.2, fill="#64e164") +
@@ -85,8 +88,8 @@ if(T){
       ylab('Percentage of replays that evolve learning') + 
       labs(color = 'Classification') +
       labs(fill = 'Classification') +
-      theme(axis.text = element_text(size = 16)) +
-      theme(axis.title = element_text(size = 18)) +
+      theme(axis.text = element_text(size = font_size_small)) +
+      theme(axis.title = element_text(size = font_size_large)) +
       theme(axis.title = element_blank()) +
       theme(plot.margin = unit(c(margin_top,0.1,0,0), 'in')) +
       theme(legend.position = 'none')
@@ -105,8 +108,8 @@ if(T){
       ylab('Percentage of replays that evolve learning') + 
       labs(color = 'Classification') +
       labs(fill = 'Classification') +
-      theme(axis.text = element_text(size = 16)) +
-      theme(axis.title = element_text(size = 18)) +
+      theme(axis.text = element_text(size = font_size_small)) +
+      theme(axis.title = element_text(size = font_size_large)) +
       theme(axis.title = element_blank()) +
       theme(plot.margin = unit(c(margin_top,0.1,0,0), 'in')) +
       theme(legend.position = 'none')
@@ -127,8 +130,8 @@ if(T){
       ylab('Percentage of replays that evolve learning') + 
       labs(color = 'Classification') +
       labs(fill = 'Classification') +
-      theme(axis.text = element_text(size = 16)) +
-      theme(axis.title = element_text(size = 18)) +
+      theme(axis.text = element_text(size = font_size_small)) +
+      theme(axis.title = element_text(size = font_size_large)) +
       theme(axis.title = element_blank()) +
       theme(plot.margin = unit(c(margin_top,0.1,0,0), 'in')) +
       theme(legend.position = 'none')
@@ -147,8 +150,8 @@ if(T){
       ylab('Percentage of replays that evolve learning') + 
       labs(color = 'Classification') +
       labs(fill = 'Classification') +
-      theme(axis.text = element_text(size = 16)) +
-      theme(axis.title = element_text(size = 18)) +
+      theme(axis.text = element_text(size = font_size_small)) +
+      theme(axis.title = element_text(size = font_size_large)) +
       theme(axis.title = element_blank()) +
       theme(plot.margin = unit(c(margin_top,0.1,0,0), 'in')) +
       theme(legend.position = 'none')
@@ -169,8 +172,8 @@ if(T){
       ylab('Percentage of replays that evolve learning') + 
       labs(color = 'Classification') +
       labs(fill = 'Classification') +
-      theme(axis.text = element_text(size = 16)) +
-      theme(axis.title = element_text(size = 18)) +
+      theme(axis.text = element_text(size = font_size_small)) +
+      theme(axis.title = element_text(size = font_size_large)) +
       theme(axis.title = element_blank()) +
       theme(plot.margin = unit(c(margin_top,0.1,0,0), 'in')) +
       theme(legend.position = 'none')
@@ -189,8 +192,8 @@ if(T){
       ylab('Percentage of replays that evolve learning') + 
       labs(color = 'Classification') +
       labs(fill = 'Classification') +
-      theme(axis.text = element_text(size = 16)) +
-      theme(axis.title = element_text(size = 18)) +
+      theme(axis.text = element_text(size = font_size_small)) +
+      theme(axis.title = element_text(size = font_size_large)) +
       theme(axis.title = element_blank()) +
       theme(plot.margin = unit(c(margin_top,0.1,0,0), 'in')) +
       theme(legend.position = 'none')
@@ -211,8 +214,8 @@ if(T){
       ylab('Percentage of replays that evolve learning') + 
       labs(color = 'Classification') +
       labs(fill = 'Classification') +
-      theme(axis.text = element_text(size = 16)) +
-      theme(axis.title = element_text(size = 18)) +
+      theme(axis.text = element_text(size = font_size_small)) +
+      theme(axis.title = element_text(size = font_size_large)) +
       theme(axis.title = element_blank()) +
       theme(plot.margin = unit(c(margin_top + 0.1,0.1,0,0), 'in')) +
       theme(legend.position = 'none')
@@ -231,8 +234,8 @@ if(T){
       ylab('Percentage of replays that evolve learning') + 
       labs(color = 'Classification') +
       labs(fill = 'Classification') +
-      theme(axis.text = element_text(size = 16)) +
-      theme(axis.title = element_text(size = 18)) +
+      theme(axis.text = element_text(size = font_size_small)) +
+      theme(axis.title = element_text(size = font_size_large)) +
       theme(axis.title = element_blank()) +
       theme(plot.margin = unit(c(margin_top + 0.1,0.1,0,0), 'in')) +
       theme(legend.position = 'none')
@@ -242,7 +245,7 @@ if(T){
 
 combined_plot = plot_grid(ggp_86_init, ggp_86_target, ggp_4_init, ggp_4_target, ggp_15_init, ggp_15_target, ggp_6_init, ggp_6_target, 
                           nrow = 4, ncol = 2, labels = c('Lineage A', '', 'Lineage B', '','Lineage C', '', 'Lineage D', ''), 
-                          vjust = c(1.5,1,1,1))
+                          vjust = c(1.5,1,1,1,1,1,1,1))
 
 # Adding shared axes: https://stackoverflow.com/a/50477585
 y_grob <- textGrob("Percentage of replays that evolve learning", 
@@ -257,8 +260,8 @@ axis_plot = arrangeGrob(combined_plot, left = y_grob, bottom = x_grob)
 shared_legend <- get_legend(ggp_86_init + 
     #guides(color = guide_legend(nrow = 1)) +
     theme(legend.position = "bottom") + 
-    theme(legend.title = element_text(size = 18)) + 
-    theme(legend.text = element_text(size = 16)) +
+    theme(legend.title = element_text(size = font_size_large)) + 
+    theme(legend.text = element_text(size = font_size_small)) +
     guides(fill=guide_legend(nrow=3)) +
     guides(color=guide_legend(nrow=3)) 
 )
