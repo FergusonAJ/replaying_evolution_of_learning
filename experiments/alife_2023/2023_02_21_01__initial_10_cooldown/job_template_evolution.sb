@@ -68,12 +68,16 @@ mkdir -p ${SCRATCH_JOB_DIR}/phylo
 cd ${SCRATCH_JOB_DIR}
 
 # Run!
+echo "Full evolution command:"
+echo "time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}"
 time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}
 
 # Analyze final dominant org
 tail -n 1 fitness.csv | grep -oP "\"\[\d+\]\w+\"" | grep -oP "\]\w+" | grep -oP "\w+" > final_dominant_char.org
 DOMINANT_GENOME=$(cat final_dominant_char.org)
 python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
+echo "Full final dominant analysis command:"
+echo "time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\" -s eval_doors.verbose=1 > final_org_eval.txt"
 time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\" -s eval_doors.verbose=1 > final_org_eval.txt
 grep final_org_eval.txt -e "\[DOORS\]" > doors.txt
 python3 ${SCRATCH_FILE_DIR}/plot_doors.py
