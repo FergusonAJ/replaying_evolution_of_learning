@@ -1,0 +1,103 @@
+#!/bin/bash --login
+#SBATCH --time=23:59:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=2g
+#SBATCH --job-name 2023_02_21_01__initial_10_cooldown
+#SBATCH --array=1-200
+#SBATCH --output=/media/austin/samsung_nvme_pop/research/learning/replaying_evolution_of_learning/experiments/alife_2023/2023_02_21_01__initial_10_cooldown/mock_scratch/2023_02_21_01__initial_10_cooldown/slurm/out/slurm-%A_%a.out
+
+IS_MOCK=0
+LOAD_MODULES=1
+while getopts ":ml" opt; do
+  case $opt in
+    m)
+     IS_MOCK=1
+      ;;
+    l)
+     LOAD_MODULES=0
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
+
+# If this is a mocked job 
+if [ ${IS_MOCK} -gt 0 ]
+then
+  SLURM_ARRAY_TASK_ID=1
+fi
+
+# Load the necessary modules
+if [ ${LOAD_MODULES} -gt 0 ]
+then
+  module purge
+  module load GCC/11.2.0
+  module load OpenMPI/4.1.1
+  module load R/4.1.2
+fi
+
+#### Variables, defined by launch script 
+# Experiment name
+EXP_NAME=2023_02_21_01__initial_10_cooldown
+# Grab all the needed directories
+SCRATCH_EXP_DIR=.
+SCRATCH_FILE_DIR=${SCRATCH_EXP_DIR}/shared_files
+SCRATCH_JOB_DIR=${SCRATCH_EXP_DIR}
+
+# Calculate values based on experiment name
+YEAR=$( echo "$EXP_NAME" | grep -oP "^\d\d\d\d" )
+YEAR_SHORT=$(echo ${YEAR} | grep -oP "\d\d$")
+MONTH=$( echo "$EXP_NAME" | grep -oP "^\d+_\d+" | grep -oP "\d+$" )
+DAY=$( echo "$EXP_NAME" | grep -oP "^\d+_\d+_\d+" | grep -oP "\d+$" )
+EXP_ID=$( echo "$EXP_NAME" | grep -oP "^\d+_\d+_\d+_\d+" | grep -oP "\d+$" )
+## The base seed (modified for individal replicates)
+## Format:  YYMMDDID000000
+## Example: 23011301000000
+#SEED_BASE=${YEAR_SHORT}${MONTH}${DAY}${EXP_ID}000000
+## Calculate the replicate's seed
+#SEED=$(( ${SEED_BASE} + ${SLURM_ARRAY_TASK_ID} ))
+SEED=`cat random_seed.txt`
+echo "Random seed: ${SEED}: Replicate ID: ${SLURM_ARRAY_TASK_ID}"
+
+# Create replicate-specific directories
+mkdir -p ${SCRATCH_JOB_DIR}
+#mkdir -p ${SCRATCH_JOB_DIR}/phylo
+cd ${SCRATCH_JOB_DIR}
+
+## Run!
+#echo "Full evolution command:"
+#echo "time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}"
+#time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}
+
+# Analyze final dominant org
+#tail -n 1 fitness.csv | grep -oP "\"\[\d+\]\w+\"" | grep -oP "\]\w+" | grep -oP "\w+" > final_dominant_char.org
+#DOMINANT_GENOME=$(cat final_dominant_char.org)
+#python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
+echo "Full final dominant analysis command:"
+echo "time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\" -s eval_doors.verbose=1 > final_org_eval.txt"
+time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\" -s eval_doors.verbose=1 -s avida_org.verbose=1 -s avida_org.inst_set_input_filename=\"${SCRATCH_FILE_DIR}/inst_set_input.txt\" > final_org_eval.txt
+grep final_org_eval.txt -e "\[DOORS\]" > doors.txt
+python3 ${SCRATCH_FILE_DIR}/plot_doors.py
+
+## Analyze orgs along the dominant lineage
+#Rscript ${SCRATCH_FILE_DIR}/phylo_analysis.R
+#LINEAGE_FILE_LENGTH=$(cat dominant_lineage.csv | wc -l)
+#LINEAGE_LENGTH=$((${LINEAGE_FILE_LENGTH} - 2)) # -1 for header, -1 for starting at 0
+#for ((LINEAGE_IDX=0; LINEAGE_IDX<=${LINEAGE_LENGTH}; LINEAGE_IDX++))
+#do
+#    SEED=$((SEED + 1))
+#    TMP_GENOME=$(Rscript ${SCRATCH_FILE_DIR}/extract_from_lineage.R ${LINEAGE_IDX}) 
+#    echo "Genome at depth ${LINEAGE_IDX}: ${TMP_GENOME}"
+#    python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${TMP_GENOME} tmp.org inst_set_output.txt 
+#    time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"tmp.org\" 
+#    Rscript ${SCRATCH_FILE_DIR}/summarize_partial_lineage__three_cues_one_set.R ${SCRATCH_FILE_DIR} ${SLURM_ARRAY_TASK_ID} ${LINEAGE_IDX} single_org_fitness.csv dominant_lineage_summary.csv 
+#done
+
+if [ ${IS_MOCK} -eq 0 ]
+then
+  scontrol show job $SLURM_JOB_ID
+fi
