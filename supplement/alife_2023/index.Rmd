@@ -1,0 +1,22 @@
+---
+title: "Supplement for: \"Potentiating Mutations Facilitate the Evolution of Associative Learning in Digital Organisms\""
+author: "Austin J. Ferguson and Charles Ofria"
+date: "`r Sys.Date()`"
+output: bookdown::gitbook
+documentclass: book
+bibliography: []
+biblio-style: apalike
+nocite: '@*'
+link-citations: yes
+github-repo: FergusonAJ/replaying_evolution_of_learning
+description: "Supplemental material for our 2023 ALife submission"
+---
+
+# Introduction
+
+Here we show all additional graphs that would not fit in the paper.
+Please use the navigation on the left to view the different sections.
+
+For data, source code, and analyses, please refer to the GitHub repo: <https://github.com/FergusonAJ/replaying_evolution_of_learning>
+
+This bookdown supplement is based on Alex Lalejini's example: <https://github.com/amlalejini/auto-deploying-bookdown-example>.

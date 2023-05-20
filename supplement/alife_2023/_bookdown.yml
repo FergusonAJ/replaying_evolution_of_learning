@@ -1,0 +1,14 @@
+book_filename: "alife_2023_supplement"
+language:
+  ui:
+    chapter_name: "Section "
+delete_merged_file: true
+rmd_files: [
+  "index.Rmd",
+  "initial_reps.Rmd",
+  "lineage_a.Rmd",
+  "lineage_b.Rmd",
+  "lineage_c.Rmd",
+  "lineage_d.Rmd",
+  #"tail.Rmd"
+]
