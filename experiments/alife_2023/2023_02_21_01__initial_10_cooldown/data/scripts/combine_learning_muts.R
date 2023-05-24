@@ -17,14 +17,18 @@ if(Sys.getenv("RSTUDIO") == 1){
 }
 
 df_list = list()
-for(job_id in 1:200){
+for(job_id in 1:1000){
+  cat(job_id, ' ')
   input_filename = paste0(input_dir, '/learning_summary_', job_id, '.csv')
-  df_tmp = read.csv(input_filename)
-  if(nrow(df_tmp) == 0){
-      next
+  if(file.exists(input_filename)){
+      df_tmp = read.csv(input_filename)
+      if(nrow(df_tmp) == 0){
+          next
+      }
+      df_list = append(df_list, list(df_tmp))
   }
-  df_list = append(df_list, list(df_tmp))
 }
+cat('\n')
 df = do.call('rbind', df_list)
 
 write.csv(df, paste0(output_dir, '/combined_learning_summary.csv'))

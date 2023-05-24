@@ -5,7 +5,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=2g
 #SBATCH --job-name (<EXP_NAME>)__(<FOCAL_SEED>)_(<FOCAL_DEPTH>)
-#SBATCH --array=1-1
+#SBATCH --array=1-995
 #SBATCH --output=(<SCRATCH_SLURM_OUT_DIR>)/slurm_mut_(<FOCAL_SEED>)_(<FOCAL_DEPTH>)-%A_%a.out
 
 IS_MOCK=0
@@ -40,10 +40,10 @@ then
 fi
 
 # Variables to be configured by user
-NUM_ONE_STEP_MUTS=100000
+NUM_ONE_STEP_MUTS=12
 NUM_TRIALS=10
-DO_TWO_STEP=0
-OUTPUT_PREFIX=one_step_muts
+DO_TWO_STEP=1
+OUTPUT_PREFIX=two_step_muts
 
 # Fill in variables via launch script
 FOCAL_SEED=(<FOCAL_SEED>)
