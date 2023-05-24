@@ -1,5 +1,5 @@
 #!/bin/bash --login
-#SBATCH --time=24:00:00
+#SBATCH --time=00:10:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
@@ -9,10 +9,14 @@
 #SBATCH --output=(<SCRATCH_SLURM_OUT_DIR>)/slurm-%A_%a.out
 
 IS_MOCK=0
-while getopts ":m" opt; do
+LOAD_MODULES=1
+while getopts ":ml" opt; do
   case $opt in
     m)
      IS_MOCK=1
+      ;;
+    l)
+     LOAD_MODULES=0
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -25,14 +29,16 @@ done
 if [ ${IS_MOCK} -gt 0 ]
 then
   SLURM_ARRAY_TASK_ID=1
-else # If this is *not* a mocked job
-  # Load the necessary modules
+fi
+
+# Load the necessary modules
+if [ ${LOAD_MODULES} -gt 0 ]
+then
   module purge
   module load GCC/11.2.0
   module load OpenMPI/4.1.1
   module load R/4.1.2
 fi
-
 
 # Calculate the seed
 SEED_BASE=22111301000000
@@ -50,13 +56,15 @@ mkdir -p ${SCRATCH_JOB_DIR}/phylo
 cd ${SCRATCH_JOB_DIR}
 
 # Run!
-time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}
+#time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}
 
 # Analyze final dominant org
-tail -n 1 fitness.csv | grep -oP "\"\[\d+\]\w+\"" | grep -oP "\]\w+" | grep -oP "\w+" > final_dominant_char.org
-DOMINANT_GENOME=$(cat final_dominant_char.org)
-python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
-time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\"
+#tail -n 1 fitness.csv | grep -oP "\"\[\d+\]\w+\"" | grep -oP "\]\w+" | grep -oP "\w+" > final_dominant_char.org
+#DOMINANT_GENOME=$(cat final_dominant_char.org)
+#python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
+time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${SEED} -s avida_org.initial_genome_filename=\"final_dominant.org\" -s eval_doors.verbose=1 > final_org_eval.txt
+grep final_org_eval.txt -e "\[DOORS\]" > doors.txt
+python3 ${SCRATCH_FILE_DIR}/plot_doors.py
 
 
 if [ ${IS_MOCK} -eq 0 ]

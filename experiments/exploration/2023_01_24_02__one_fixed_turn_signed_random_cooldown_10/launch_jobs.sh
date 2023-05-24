@@ -5,6 +5,19 @@
 # This is done so the job name and output directory can use variables
 # That part is adapted from here: https://stackoverflow.com/a/70740950
 
+# Allow user to launch as mock jobs with -m
+IS_MOCK=0
+while getopts ":m" opt; do
+  case $opt in
+    m)
+     IS_MOCK=1
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
 #### Grab global variables, experiment name, etc.
 # Do not touch this block unless you know what you're doing!
 # Experiment name -> name of current directory
@@ -15,8 +28,18 @@ EXP_DIR=$(pwd)
 REPO_ROOT_DIR=$(pwd | grep -oP ".+/(?=experiments/)")
 source ${REPO_ROOT_DIR}/config_global.sh
 
-echo " "
-echo "Creating jobs for experiment: ${EXP_NAME}"
+# Switch to mock scratch, if requested
+if [ ${IS_MOCK} -gt 0 ]
+then
+  SCRATCH_ROOT_DIR=${EXP_DIR}/mock_scratch
+  mkdir -p ${SCRATCH_ROOT_DIR}
+  echo " "
+  echo "Creating *mock* jobs for experiment: ${EXP_NAME}"
+else
+  echo " "
+  echo "Creating jobs for experiment: ${EXP_NAME}"
+fi
+
 
 #### Grab references to the various directories used in setup
 LAUNCH_DIR=`pwd`
@@ -74,7 +97,15 @@ sed -i -e "s/(<SCRATCH_FILE_DIR>)/${ESCAPED_SCRATCH_FILE_DIR}/g" out.sb
 TIMESTAMP=`date +%m_%d_%y__%H_%M_%S`
 SLURM_FILENAME=${SCRATCH_SLURM_JOB_DIR}/${EXP_NAME}__${TIMESTAMP}.sb
 mv out.sb ${SLURM_FILENAME} 
-echo "${SLURM_FILENAME}" >> ${ROLL_Q_DIR}/roll_q_job_array.txt
-echo ""
-echo "Finished creating jobs."
-echo ""
+
+if [ ${IS_MOCK} -gt 0 ]
+then
+  echo ""
+  echo "Finished creating *mock* jobs."
+  echo ""
+else
+  echo "${SLURM_FILENAME}" >> ${ROLL_Q_DIR}/roll_q_job_array.txt
+  echo ""
+  echo "Finished creating jobs."
+  echo ""
+fi

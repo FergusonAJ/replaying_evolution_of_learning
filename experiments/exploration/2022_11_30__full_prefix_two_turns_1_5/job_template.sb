@@ -1,5 +1,5 @@
 #!/bin/bash --login
-#SBATCH --time=23:59:00
+#SBATCH --time=00:10:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
@@ -56,7 +56,7 @@ mkdir -p ${SCRATCH_JOB_DIR}/phylo
 cd ${SCRATCH_JOB_DIR}
 
 # Run!
-time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}
+#time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=${SEED}
 
 # Analyze final dominant org
 tail -n 1 fitness.csv | grep -oP "\"\[\d+\]\w+\"" | grep -oP "\]\w+" | grep -oP "\w+" > final_dominant_char.org
