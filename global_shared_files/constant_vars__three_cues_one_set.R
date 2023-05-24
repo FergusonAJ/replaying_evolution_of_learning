@@ -2,8 +2,8 @@
 seed_class_learning = 'Learning'
 seed_class_error_correction = 'Error correction'
 seed_class_other = 'Other'
-seed_class_small = 'Small'
-seed_class_bet_hedged_learning = 'Bet-hedged imprinting'
+seed_class_small = 'Low activity'
+seed_class_bet_hedged_learning = 'Bet-hedged learning'
 seed_class_bet_hedged_error_correction = 'Bet-hedged error correction'
 seed_class_bet_hedged_mixed = 'Mixed bet hedging'
 
@@ -23,10 +23,12 @@ color_map = c(
   'Error correction' = '#ee99aa',
   'Bet-hedged error correction' = '#994455',
   'Learning' = '#6699cc',
-  'Bet-hedged imprinting' = '#004488',
-  'Mixed bet hedging' = '#997700',
+  'Bet-hedged learning' = '#004488',
+  'Mixed bet hedging' = '#eecc66',
+  #'Mixed bet hedging' = '#997700',
   'Other' = '#000000',
-  'Small' = '#eecc66'
+  'Low activity' = '#7c7c7c'
+  #'Low activity' = '#eecc66'
 )
 
 # Names for individual trial classification
