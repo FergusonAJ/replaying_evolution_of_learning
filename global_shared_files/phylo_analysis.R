@@ -28,7 +28,7 @@ writeChar(paste0(dominant_org$genome, '\n'), fp, eos = NULL)
 close(fp)
 
 df_lineage = dominant_org
-cur_org = dominant_org
+cur_org = dominant_org[1,]
 while(cur_org$ancestor_list != 'NONE'){
   cur_org = df[df$id == cur_org$ancestor_list,]
   df_lineage = rbind(df_lineage, cur_org)

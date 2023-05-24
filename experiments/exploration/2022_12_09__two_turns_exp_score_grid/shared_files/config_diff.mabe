@@ -1,3 +1,4 @@
+max_updates = 1000;
 // Merit is equal to score_exp_base^(org's score)
 eval_doors.score_exp_base = 1.25;
 

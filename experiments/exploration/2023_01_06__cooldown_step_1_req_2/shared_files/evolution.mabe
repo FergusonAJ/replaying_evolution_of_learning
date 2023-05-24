@@ -64,7 +64,8 @@ Var avg_gen;
   max_file.WRITE();
   avg_gen = main_pop.CALC_MEAN("generation");
   IF(ud >= max_updates){ 
-    //sys.SNAPSHOT();
+    PRINT("\n\nSNAPSHOT\n\n");
+    sys.SNAPSHOT();
     EXIT();
   }
 };

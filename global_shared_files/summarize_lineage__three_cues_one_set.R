@@ -10,7 +10,7 @@ if(length(args) != 2){
 
 shared_file_dir = args[1]
 
-source(paste0(shared_file_dir, '/constant_vars__three_cues_ones_set.R'))
+source(paste0(shared_file_dir, '/constant_vars__three_cues_one_set.R'))
 source(paste0(shared_file_dir, '/shared_funcs__three_cues_one_set.R'))
 
 seed = args[2]

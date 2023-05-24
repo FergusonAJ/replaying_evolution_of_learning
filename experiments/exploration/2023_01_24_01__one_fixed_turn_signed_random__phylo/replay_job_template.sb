@@ -1,0 +1,61 @@
+#!/bin/bash --login
+#SBATCH --time=23:59:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem-per-cpu=2g
+#SBATCH --job-name (<EXP_NAME>)__(<REPLAY_SEED>)_(<REPLAY_DEPTH>)
+#SBATCH --array=1-100
+#SBATCH --output=(<SCRATCH_SLURM_OUT_DIR>)/slurm_replay_(<REPLAY_SEED>)_(<REPLAY_DEPTH>)-%A_%a.out
+
+# Load the necessary modules
+module purge
+module load GCC/11.2.0
+module load OpenMPI/4.1.1
+module load R/4.1.2
+
+# Fill in variables via launch script
+REPLAY_SEED=(<REPLAY_SEED>)
+REPLAY_DEPTH=(<REPLAY_DEPTH>)
+MAX_UPDATES=(<MAX_UPDATES>)
+
+# Calculate the seed
+SEED_BASE=1310000
+OLD_SEED=\$((\${SEED_BASE} + \${SLURM_ARRAY_TASK_ID}))
+echo "Old random seed: \${OLD_SEED}: Replicate ID: \${SLURM_ARRAY_TASK_ID}"
+SEED_OFFSET=\$((1000 * \${REPLAY_SEED}))
+SEED_OFFSET=\$((\${SEED_OFFSET} + \${SLURM_ARRAY_TASK_ID}))
+NEW_SEED=\$((\${OLD_SEED} + \${SEED_OFFSET}))
+echo "New random seed: \${NEW_SEED}: Replicate ID: \${SLURM_ARRAY_TASK_ID}"
+
+# Grab all the needed directories
+SCRATCH_EXP_DIR=(<SCRATCH_EXP_DIR>)
+SCRATCH_FILE_DIR=(<SCRATCH_FILE_DIR>)
+SCRATCH_BASE_JOB_DIR=\${SCRATCH_EXP_DIR}/reps/\${REPLAY_SEED}
+SCRATCH_JOB_DIR=\${SCRATCH_BASE_JOB_DIR}/replays/\${REPLAY_DEPTH}/\${SLURM_ARRAY_TASK_ID}
+
+# Grab genome and origin time from old lineage
+cd \${SCRATCH_BASE_JOB_DIR}
+START_GENOME=\$(Rscript \${SCRATCH_FILE_DIR}/extract_from_lineage.R \${REPLAY_DEPTH}) 
+ORIGIN_TIME=\$(Rscript \${SCRATCH_FILE_DIR}/extract_from_lineage.R \${REPLAY_DEPTH} origin_time) 
+REPLAY_UPDATES=\$(( \${MAX_UPDATES} - \${ORIGIN_TIME} ))
+
+# Create replicate-specific directories
+mkdir -p \${SCRATCH_JOB_DIR}
+mkdir -p \${SCRATCH_JOB_DIR}/phylo
+cd \${SCRATCH_JOB_DIR}
+
+# Convert the genome into format MABE2 expects
+python3 \${SCRATCH_FILE_DIR}/genome_conversion.py -c \${START_GENOME} base.org \${SCRATCH_BASE_JOB_DIR}/inst_set_output.txt 
+
+# Run!
+time \${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe -f \${SCRATCH_FILE_DIR}/evolution.mabe -s random_seed=\${NEW_SEED} -s avida_org.inst_set_input_filename=\"\${SCRATCH_FILE_DIR}/inst_set_input.txt\" -s avida_org.initial_genome_filename=\"base.org\" -s max_updates=\${REPLAY_UPDATES}
+
+# Analyze final dominant org
+Rscript \${SCRATCH_FILE_DIR}/phylo_analysis.R \${REPLAY_UPDATES}
+DOMINANT_GENOME=\$(cat final_dominant_char.org)
+python3 \${SCRATCH_FILE_DIR}/genome_conversion.py -c \${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
+time \${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/shared_config.mabe -f \${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=\${NEW_SEED} -s avida_org.inst_set_input_filename=\"\${SCRATCH_FILE_DIR}/inst_set_input.txt\" 
+mv single_org_fitness.csv final_dominant_org_fitness.csv
+
+scontrol show job \$SLURM_JOB_ID
