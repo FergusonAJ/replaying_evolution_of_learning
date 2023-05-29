@@ -1,0 +1,119 @@
+random_seed = 0;                // Seed for random number generator; use 0 to base on time.
+Population main_pop;            // Collection of organisms
+Var pop_size = 3600;            // Local value variable.
+Var max_updates = 250000;       // Local value variable.
+
+NeighborPlacement grid_placement{
+  grid_height = 60;             // Height of the grid the population lives on
+  grid_width = 60;              // Width of the grid the population lives on
+  target = "main_pop";          // Population(s) to manage.
+  use_moore_neighborhood = 1;   // If true, use a Moore neighborhood.
+                                    // If false, use a von Neumann neighborhood
+};
+AnnotatePlacement_Position pos_annotater { // Store org's position as trait on placement.
+  target = "main_pop";      // Population(s) to annotate
+  pos_trait = "org_pos";    // Name of trait that will hold organism's position
+};
+SchedulerProbabilistic scheduler { // Rations out updates to organisms based on a specified attribute, using a method akin to roulette wheel selection.
+  pop = "main_pop";             // Which population should we select parents from?
+  avg_updates = 30;             // How many updates should organism receive on average?
+  trait = "merit";              // Which trait provides the fitness value to use?
+  parent_trait = "child_merit"; // Does nothing if empty. Otherwise, on reproduction the 
+                                // parent will reset their trait (as defined above) with this.
+  base_value = 1;               // What value should the scheduler use for organisms that have performed no tasks?
+  merit_scale_factor = 1;       // How should the scheduler scale merit?
+};
+VirtualCPU_Inst_Nop inst_lib_nop { // Nop instructions for VirtualCPUOrg
+  target_pop = "main_pop";      // Population(s) to manage.
+  num_nops = 6;                 // Number of nops to include.
+};
+VirtualCPU_Inst_Math inst_lib_math { // Math instructions for VirtualCPUOrg
+  target_pop = "main_pop";      // Population(s) to manage.
+};
+VirtualCPU_Inst_Flow inst_lib_flow { // Flow control instructions for VirtualCPUOrg
+  target_pop = "main_pop";      // Population(s) to manage.
+};
+VirtualCPU_Inst_Label inst_lib_label { // Label control instructions for VirtualCPUOrg
+  target_pop = "main_pop"; // Population(s) to manage.
+};
+VirtualCPU_Inst_Manipulation inst_lib_manip { // Manipulation instructions for VirtualCPUOrg
+  target_pop = "main_pop";      // Population(s) to manage.
+};
+VirtualCPU_Inst_Replication inst_lib_repl { // Replication instructions for VirtualCPUOrg
+  target_pop = "main_pop";      // Population(s) to manage.
+  pos_trait = "org_pos";        // Name of trait that holds organism's position
+  offspring_genome_trait = "offspring_genome";// Name of trait that holds the offspring organism's genome
+  req_count_inst_executed = 1500; // Minimum number of instructions that the organism must 
+                                  // execute before its allowed to reproduce. Otherwise 
+                                  // reproduction instructions do nothing.  Takes priority 
+                                  // over `req_frac_inst_executed`; -1 to use fraction instead
+  req_frac_inst_executed = 0 ;  // The organism must have executed at least this fraction 
+                                  // of their genome to reproduce. Otherwise reproduction 
+                                  // instructions do nothing. 
+                                  // Overruled by `req_count_inst_executed`
+};
+EvalDoors eval_doors {      // Evaluate organisms on their ability to follow a path.
+  target_pop = "main_pop";  // Which population(s) should we evaluate?
+  score_trait = "child_merit";  // Which trait stores path following performance?
+  accuracy_trait = "accuracy";  // Which trait stores door accuracy?
+  state_trait = "state";    // Which trait stores organisms' path follow state?
+  cue_values = "0;1;-1;-1;";  // A semicolon-separated string of cue values. 
+                               // A non-negative value is used as is, -1 gives a random cue 
+                               // for each trial (first value is the exit)
+  correct_doors_trait = "correct_doors";// Which trait stores the number of doors correctly taken?
+  correct_exits_trait = "correct_exits";// Which trait stores the number of exits correctly taken?
+  door_rooms_trait = "door_rooms";// Which trait stores the number of "door rooms" visited?
+  exit_rooms_trait = "exit_rooms";// Which trait stores the number of "exit rooms" visited?
+  incorrect_doors_trait = "incorrect_doors";// Which trait stores the number of doors incorrectly taken?
+  incorrect_exits_trait = "incorrect_exits";// Which trait stores the number of exits incorrectly taken?
+  correct_door_reward = 1;    // Reward for getting a single door correct
+  correct_exit_reward = 0;    // Reward for getting a single exit correct
+  incorrect_door_penalty = 1; // Penalty for getting a single door incorrect
+  incorrect_door_step = 0;    // How much the incorrect door penalty increases each time 
+                              //        it is applied
+  incorrect_exit_penalty = 1; // Penalty for getting a single exit incorrect
+  exit_cooldown = 0; // How many instruction executions the org will miss after taking an exit
+  exit_cooldown_step = 0;     // How much exit_cooldown increases when exit is taken
+  score_exp_base = 2;         // Merit is equal to score_exp_base^(org's score)
+  start_patterns = "";
+                                // List of all possible start patterns for the paths. 
+                                // Empty for random. Semicolons separate patterns, while 
+                                // commas separate door indices in each pattern. 
+                                // Indices start at 1 for non-exit doors.
+};
+VirtualCPUOrg avida_org {       // Organism consisting of Avida instructions.
+  site_point_mut_prob = 0.0075; // Per-site probability of a point mutations
+  site_insertion_mut_prob = 0;  // Per-site probability of a insertion mutations
+  site_deletion_mut_prob = 0;   // Per-site probability of a deletion mutations
+  genome_point_mut_prob = 0;        // Per-genome probability of a point mutations
+  genome_insertion_mut_prob = 0.05; // Per-genome probability of a insertion mutations
+  genome_deletion_mut_prob = 0.05;  // Per-genome probability of a deletion mutations
+  N = 0;                        // Initial number of instructions in genome
+  init_random = 0;              // Should we randomize ancestor?  (0 = "blank" default)
+  eval_time = 200;              // How many CPU cycles should we give organisms to run?
+  input_name = "input";         // Name of variable to load inputs from.
+  output_name = "unused_output";   // Name of variable to output results.
+  genome_name = "genome";       // Where to store the genome?.
+  genome_length_name = "genome_length";   // Where to store the genome's length? 
+  position_name = "org_pos";    // Where to store the organism's position?.
+  merit_name = "merit";         // Name of variable corresponding to the organism's task performance.
+  child_merit_name = "child_merit";// Name of variable corresponding to the organism's task performance that will be used to calculate CPU cylces given to offspring.
+  initial_merit = 0.01;       // Initial value for merit (task performance)
+  verbose = 0;
+  initial_genome_filename = "../../shared_files/ancestor.org";
+                              // File that contains the gennome used to initialize organisms.
+  inst_set_input_filename = "../../shared_files/inst_set_input.txt"; 
+                              // File that contains the instruction set to use. 
+                              // One instruction name per line. Order is maintained.
+  inst_set_output_filename = "inst_set_output.txt";
+  expanded_nop_args = 1;        // If true, some instructions (e.g., math) will use multiple nops to fully define the registers used
+};
+//AnalyzeSystematics sys{
+//  data_file_name = "phylo/phylogenetic_data.csv";// Filename for systematics data file.
+//  data_updates = "0:1:-1";      // Which updates should we output a data from the phylogeny?
+//  snapshot_file_root_name = "phylo/phylogeny";// Filename for snapshot files (will have update number and .csv appended to end)
+//  snapshot_updates = "0:0:0";  // Which updates should we output a snapshot of the phylogeny?
+//  store_ancestors = 1;          // Store all ancestors of extant taxa.(1 = TRUE)
+//  store_outside = 0;            // Store all taxa that ever existed.(1 = TRUE)
+//  taxon_info = "genome";        // Which trait should we identify unique taxa based on
+//};
