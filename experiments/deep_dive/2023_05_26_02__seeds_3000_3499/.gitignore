@@ -1,3 +1,6 @@
 plots/*
 mock_scratch/*
 old_mock_scratch/*
+images/*
+data/processed_data/*
+data/reps*
