@@ -46,11 +46,44 @@ SCRATCH_SLURM_JOB_DIR=${SCRATCH_SLURM_DIR}/jobs
 
 MAX_UPDATES=250000
 
-#REPLAY_SEEDS="21 219"
-REPLAY_SEEDS="219"
+#declare -a DEPTH_MAP
+#REPLAY_SEEDS="332 426 434 487"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[332]="1600 1550 1500 1450 1400"
+#DEPTH_MAP[426]="1324 1274 1224 1174 1124"
+#DEPTH_MAP[434]="2016 1966 1916 1866 1816"
+#DEPTH_MAP[487]="1038 988 938 888 838"
+
+#REPLAY_SEEDS="426 434"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[426]="1324"
+#DEPTH_MAP[434]="2016 1966 1916"
+
+#REPLAY_SEEDS="426 434 487"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[426]="1174 1124 1074 1024 974 924"
+#DEPTH_MAP[434]="1766 1716 1666 1616 1566 1516"
+#DEPTH_MAP[487]="788 738 688 638 588 538"
+
+
+#REPLAY_SEEDS="332"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[332]="1600 1550 1500 1450 1400"
+
+#REPLAY_SEEDS="426 434"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[426]="874 824 774 724 674 624"
+#DEPTH_MAP[434]="1466 1416 1366 1316 1266 1216"
+
+#REPLAY_SEEDS="332 426 434"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[332]="1350 1300 1250 1200 1150 1100"
+#DEPTH_MAP[426]="574 524 474 424 374 324"
+#DEPTH_MAP[434]="1166 1116 1066 1016 966 916"
+
+REPLAY_SEEDS="434"
 declare -a DEPTH_MAP
-#DEPTH_MAP[21]="2366 2316 2266 2216 2166"
-DEPTH_MAP[219]="1557 1507 1457 1407 1357"
+DEPTH_MAP[434]="866 816 766 716 666 616"
 
 
 for REPLAY_SEED in ${REPLAY_SEEDS}
@@ -58,14 +91,14 @@ do
     echo "Starting seed: ${REPLAY_SEED}"
     for REPLAY_DEPTH in ${DEPTH_MAP[REPLAY_SEED]}
     do
-        echo "Launching replay jobs for experiment: ${EXP_NAME}"
+        echo "Launching full replay jobs for experiment: ${EXP_NAME}"
         echo "    Seed: ${REPLAY_SEED}; Depth: ${REPLAY_DEPTH}"
 
         echo "Generating slurm job scripts in dir: ${SCRATCH_SLURM_JOB_DIR}"
         echo "Sending slurm output to dir: ${SCRATCH_SLURM_OUT_DIR}"
 
         # Create output sbatch file, and find/replace key info
-        sed -e "s/(<EXP_NAME>)/${EXP_NAME}/g" job_template_replay.sb > out.sb
+        sed -e "s/(<EXP_NAME>)/${EXP_NAME}/g" job_template_full_replay.sb > out.sb
         ESCAPED_SCRATCH_SLURM_OUT_DIR=$(echo "${SCRATCH_SLURM_OUT_DIR}" | sed -e "s/\//\\\\\//g")
         sed -i -e "s/(<SCRATCH_SLURM_OUT_DIR>)/${ESCAPED_SCRATCH_SLURM_OUT_DIR}/g" out.sb
         ESCAPED_SCRATCH_EXP_DIR=$(echo "${SCRATCH_EXP_DIR}" | sed -e "s/\//\\\\\//g")
@@ -78,7 +111,7 @@ do
 
         # Move output sbatch file to final destination, and add to roll_q queue
         TIMESTAMP=`date +%m_%d_%y__%H_%M_%S`
-        SLURM_FILENAME=${SCRATCH_SLURM_JOB_DIR}/replay_${REPLAY_SEED}_${REPLAY_DEPTH}__${EXP_NAME}__${TIMESTAMP}.sb
+        SLURM_FILENAME=${SCRATCH_SLURM_JOB_DIR}/full_replay_${REPLAY_SEED}_${REPLAY_DEPTH}__${EXP_NAME}__${TIMESTAMP}.sb
         mv out.sb ${SLURM_FILENAME} 
         if [ ${IS_MOCK} -gt 0 ]
         then

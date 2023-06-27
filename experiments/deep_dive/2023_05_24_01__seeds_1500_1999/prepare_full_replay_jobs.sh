@@ -46,11 +46,25 @@ SCRATCH_SLURM_JOB_DIR=${SCRATCH_SLURM_DIR}/jobs
 
 MAX_UPDATES=250000
 
-#REPLAY_SEEDS="21 219"
-REPLAY_SEEDS="219"
+#REPLAY_SEEDS="203 238 474 475"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[203]="452 402 352 302 252"
+#DEPTH_MAP[238]="1084 1034 984 934 884"
+#DEPTH_MAP[474]="1435 1385 1335 1285 1235"
+#DEPTH_MAP[475]="938 888 838 788 738"
+
+#REPLAY_SEEDS="474 475"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[474]="1185 1135 1085 1035 985 935"
+#DEPTH_MAP[475]="688 638 588 538 488 438"
+
+#REPLAY_SEEDS="474"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[474]="885 835 785 735 685 635"
+
+REPLAY_SEEDS="474"
 declare -a DEPTH_MAP
-#DEPTH_MAP[21]="2366 2316 2266 2216 2166"
-DEPTH_MAP[219]="1557 1507 1457 1407 1357"
+DEPTH_MAP[474]="585 535 485 435 385 335"
 
 
 for REPLAY_SEED in ${REPLAY_SEEDS}
@@ -58,14 +72,14 @@ do
     echo "Starting seed: ${REPLAY_SEED}"
     for REPLAY_DEPTH in ${DEPTH_MAP[REPLAY_SEED]}
     do
-        echo "Launching replay jobs for experiment: ${EXP_NAME}"
+        echo "Launching full replay jobs for experiment: ${EXP_NAME}"
         echo "    Seed: ${REPLAY_SEED}; Depth: ${REPLAY_DEPTH}"
 
         echo "Generating slurm job scripts in dir: ${SCRATCH_SLURM_JOB_DIR}"
         echo "Sending slurm output to dir: ${SCRATCH_SLURM_OUT_DIR}"
 
         # Create output sbatch file, and find/replace key info
-        sed -e "s/(<EXP_NAME>)/${EXP_NAME}/g" job_template_replay.sb > out.sb
+        sed -e "s/(<EXP_NAME>)/${EXP_NAME}/g" job_template_full_replay.sb > out.sb
         ESCAPED_SCRATCH_SLURM_OUT_DIR=$(echo "${SCRATCH_SLURM_OUT_DIR}" | sed -e "s/\//\\\\\//g")
         sed -i -e "s/(<SCRATCH_SLURM_OUT_DIR>)/${ESCAPED_SCRATCH_SLURM_OUT_DIR}/g" out.sb
         ESCAPED_SCRATCH_EXP_DIR=$(echo "${SCRATCH_EXP_DIR}" | sed -e "s/\//\\\\\//g")
@@ -78,7 +92,7 @@ do
 
         # Move output sbatch file to final destination, and add to roll_q queue
         TIMESTAMP=`date +%m_%d_%y__%H_%M_%S`
-        SLURM_FILENAME=${SCRATCH_SLURM_JOB_DIR}/replay_${REPLAY_SEED}_${REPLAY_DEPTH}__${EXP_NAME}__${TIMESTAMP}.sb
+        SLURM_FILENAME=${SCRATCH_SLURM_JOB_DIR}/full_replay_${REPLAY_SEED}_${REPLAY_DEPTH}__${EXP_NAME}__${TIMESTAMP}.sb
         mv out.sb ${SLURM_FILENAME} 
         if [ ${IS_MOCK} -gt 0 ]
         then
