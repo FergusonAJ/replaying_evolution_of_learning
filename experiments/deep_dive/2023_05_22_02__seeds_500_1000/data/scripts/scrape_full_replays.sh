@@ -1,0 +1,63 @@
+#!/bin/bash
+
+NUM_REPS=50
+
+#REPLAY_SEEDS="8 10 20 57 141 185 305 359"
+#REPLAY_SEEDS="8 57 305"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[8]="1916 1866 1816 1766 1716 1666 1616 1566 1516 1466 1416 1366 1316 1266 1216"
+#DEPTH_MAP[10]="816 766 716 666 616"
+#DEPTH_MAP[20]="3413 3363 3313 3263 3213"
+#DEPTH_MAP[57]="3319 3269 3219 3169 3119 3069 3019 2969 2919 2869 2819 2769 2719 2669 2619"
+#DEPTH_MAP[141]="474 424 374 324 274"
+#DEPTH_MAP[185]="633 583 533 483 433"
+#DEPTH_MAP[305]="1774 1724 1674 1624 1574 1524 1474 1424 1374 1324 1274 1224 1174 1124 1074"
+#DEPTH_MAP[359]="1895 1845 1795 1745 1695"
+
+#REPLAY_SEEDS="8 305"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[8]="1166 1116 1066 1016 966 916"
+#DEPTH_MAP[305]="1074 1024 974 924 874 824"
+
+#REPLAY_SEEDS="8 305"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[8]="866 816 766 716 666 616"
+#DEPTH_MAP[305]="774 724 674 624 574 524"
+
+#REPLAY_SEEDS="305"
+#declare -a DEPTH_MAP
+#DEPTH_MAP[305]="1174 1224 1274 1324 1374 1424 1474 1524"
+
+REPLAY_SEEDS="305"
+declare -a DEPTH_MAP
+DEPTH_MAP[305]="474 424 374 324 274 224"
+    
+# Grab the experiment name
+EXP_NAME=$(pwd | grep -oP "/\K[^/]+(?=/data|/data/scripts)")
+
+# Grab global config variables
+REPO_ROOT_DIR=$(pwd | grep -oP ".+/(?=experiments/)")
+source ${REPO_ROOT_DIR}/config_global.sh
+
+# Calculate directories to pass to R script
+SCRATCH_REP_DIR=${SCRATCH_ROOT_DIR}/${EXP_NAME}/reps
+OUTPUT_DIR=$(pwd | grep -oP ".+/${EXP_NAME}/data")
+SCRIPT_DIR=${OUTPUT_DIR}/scripts
+
+for REPLAY_SEED in ${REPLAY_SEEDS}
+do
+    echo "Starting seed: ${REPLAY_SEED}"
+    for REPLAY_DEPTH in ${DEPTH_MAP[REPLAY_SEED]}
+    do
+        echo "  Depth: ${REPLAY_DEPTH}"
+        REPLAY_SCRATCH_REP_DIR=${SCRATCH_REP_DIR}/${REPLAY_SEED}/full_replays/${REPLAY_DEPTH}
+        REPLAY_OUTPUT_DIR=${OUTPUT_DIR}/reps/${REPLAY_SEED}/full_replays/${REPLAY_DEPTH}
+        mkdir -p ${REPLAY_OUTPUT_DIR}
+        echo ""
+        echo "Pulling data from: ${REPLAY_SCRATCH_REP_DIR}"
+        echo "Saving data to: ${REPLAY_OUTPUT_DIR}"
+        echo ""
+        Rscript ${SCRIPT_DIR}/combine_final_dominant_data.R ${REPLAY_SCRATCH_REP_DIR} ${REPLAY_OUTPUT_DIR} ${NUM_REPS}
+    done
+    echo "----------------"
+done

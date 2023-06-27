@@ -1,5 +1,6 @@
 #!/bin/bash
 
+NUM_REPS=500
 IS_REPLAY=0
 #REPLAY_SEED=86
 #REPLAY_DEPTHS="1000 950 900 850 800 750 700 650 600 550 500 450 400 350 300 250 200 150 100 50"
@@ -29,13 +30,13 @@ then
         echo "Pulling data from: ${REPLAY_SCRATCH_REP_DIR}"
         echo "Saving data to: ${REPLAY_OUTPUT_DIR}"
         echo ""
-        Rscript ${SCRIPT_DIR}/combine_final_dominant_data.R ${REPLAY_SCRATCH_REP_DIR} ${REPLAY_OUTPUT_DIR}
+        Rscript ${SCRIPT_DIR}/combine_final_dominant_data.R ${REPLAY_SCRATCH_REP_DIR} ${REPLAY_OUTPUT_DIR} ${NUM_REPS}
     done
 else
     echo ""
     echo "Pulling data from: ${SCRATCH_REP_DIR}"
     echo "Saving data to: ${OUTPUT_DIR}"
     echo ""
-    Rscript ${SCRIPT_DIR}/combine_final_dominant_data.R ${SCRATCH_REP_DIR} ${OUTPUT_DIR}
+    Rscript ${SCRIPT_DIR}/combine_final_dominant_data.R ${SCRATCH_REP_DIR} ${OUTPUT_DIR} ${NUM_REPS}
 fi
 

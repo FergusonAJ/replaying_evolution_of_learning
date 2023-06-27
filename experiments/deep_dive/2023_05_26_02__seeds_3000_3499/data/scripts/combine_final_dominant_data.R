@@ -1,19 +1,24 @@
 rm(list = ls())
 
 args = commandArgs(trailingOnly=T)
-if(length(args) != 2){
-    print('Error! Expected exactly two args: 1) the scratch replicates directory and 2) the output directory!')
+if(length(args) != 3){
+    print('Error! Expected exactly three args: ')
+    print('1) the scratch replicates directory') 
+    print('2) the output directory!')
+    print('3) the number of replicates to scrape!')
     quit()
 }
 
 reps_dir = args[1]
 output_dir = args[2]
+num_reps = as.numeric(args[3])
 
 df = NA
 
-for(i in 1:500){
+for(i in 1:num_reps){
     cat(i)
-    filename = paste0(reps_dir, '/', i, '/final_dom_org_fitness.csv')
+    #filename = paste0(reps_dir, '/', i, '/final_dom_org_fitness.csv')
+    filename = paste0(reps_dir, '/', i, '/single_org_fitness.csv')
     if(!file.exists(filename)){
         cat('(X)')
         next
