@@ -61,7 +61,7 @@ Var avg_gen;
         "  mean_accuracy=", main_pop.CALC_MEAN("accuracy")
        );
   fit_file.WRITE();
-  max_file.WRITE();
+  //max_file.WRITE();
   avg_gen = main_pop.CALC_MEAN("generation");
   IF(ud >= max_updates){ 
     EXIT();

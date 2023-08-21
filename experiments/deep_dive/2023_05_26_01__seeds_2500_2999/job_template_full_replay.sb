@@ -79,7 +79,7 @@ echo "Replay will run for ${REPLAY_UPDATES} updates!"
 
 # Create replicate-specific directories
 mkdir -p ${SCRATCH_JOB_DIR}
-mkdir -p ${SCRATCH_JOB_DIR}/phylo
+#mkdir -p ${SCRATCH_JOB_DIR}/phylo
 cd ${SCRATCH_JOB_DIR}
 
 # Convert the genome into format MABE2 expects
@@ -93,8 +93,22 @@ tail -n 1 fitness.csv | grep -oP "\"\[\d+\]\w+\"" | grep -oP "\]\w+" | grep -oP 
 DOMINANT_GENOME=$(cat final_dominant_char.org)
 python3 ${SCRATCH_FILE_DIR}/genome_conversion.py -c ${DOMINANT_GENOME} final_dominant.org inst_set_output.txt 
 time ${SCRATCH_FILE_DIR}/MABE -f ${SCRATCH_FILE_DIR}/base_3c1s_config.mabe ${SCRATCH_FILE_DIR}/config_diff.mabe ${SCRATCH_FILE_DIR}/analysis.mabe -s random_seed=${NEW_SEED} -s avida_org.inst_set_input_filename=\"${SCRATCH_FILE_DIR}/inst_set_input.txt\" -s avida_org.initial_genome_filename=\"final_dominant.org\" -s eval_doors.verbose=1 > final_org_eval.txt
-grep final_org_eval.txt -e "\[DOORS\]" > doors.txt
-python3 ${SCRATCH_FILE_DIR}/plot_doors.py
+#grep final_org_eval.txt -e "\[DOORS\]" > doors.txt
+#python3 ${SCRATCH_FILE_DIR}/plot_doors.py
+
+rm base.org
+# rm doors.txt -> Not generated
+rm final_dominant_char.org
+rm final_dominant.org
+rm final_org_eval.txt
+tar -czf fitness_data.tar.gz fitness.csv
+rm inst_set_output.txt
+# rm max_org.csv -> Not generated
+# rm out.png -> Not generated
+# rm -r phylo -> Not generated
+# Don't touch single_org_fitness, it's what we care about! 
+
+
 
 if [ ${IS_MOCK} -eq 0 ]
 then

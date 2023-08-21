@@ -14,8 +14,10 @@ output_dir = args[2]
 num_reps = as.numeric(args[3])
 
 df = NA
+seeds = 1:num_reps
+#seeds = c(393)
 
-for(i in 1:num_reps){
+for(i in seeds){
     cat(i)
     #filename = paste0(reps_dir, '/', i, '/final_dom_org_fitness.csv')
     filename = paste0(reps_dir, '/', i, '/single_org_fitness.csv')
