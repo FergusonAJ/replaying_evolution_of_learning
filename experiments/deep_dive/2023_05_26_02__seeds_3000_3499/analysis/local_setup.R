@@ -1,7 +1,7 @@
 # Load global files
 source('../../../../global_shared_files/constant_vars__three_cues_one_set.R')
 source('../../../../global_shared_files/shared_funcs__three_cues_one_set.R')
-source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
+#source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
 
 # User defined variables
 plot_dir = '../plots/'
@@ -47,37 +47,83 @@ create_dirs_if_needed = function(dir_names, recursive = T){
   }
 }
 
+# Helper functions for specific filenames
+get_processed_data_filename = function(){
+  filename =  paste0(processed_data_dir, '/processed_full.csv')
+  return(filename)
+}
+get_processed_summary_filename = function(){
+  filename =  paste0(processed_data_dir, '/processed_summary.csv')
+  return(filename)
+}
+get_processed_summary_after_lineage_analysis_filename = function(){
+  filename =  paste0(processed_data_dir, '/processed_summary_after_lineage_analysis.csv')
+  return(filename)
+}
+get_processed_classification_filename = function(){
+  filename =  paste0(processed_data_dir, '/processed_classification.csv')
+  return(filename)
+}
+get_processed_lineage_filename = function(seed){
+  filename =  paste0(processed_data_dir, '/reps/', seed, '/processed_lineage.csv')
+  return(filename)
+}
+get_replay_depth_classification_summary_filename = function(seed, depth){
+  filename = paste0(processed_data_dir, '/reps/', seed, '/depths/', depth, '/processed_classification.csv')
+  return(filename)
+}
+get_exploratory_replay_classification_summary_filename = function(){
+  filename = paste0(processed_data_dir, '/processed_exploratory_replay_classification_summary.csv')
+  return(filename)
+}
+get_target_window_replay_classification_summary_filename = function(){
+  filename = paste0(processed_data_dir, '/processed_target_window_classification_summary.csv')
+  return(filename)
+}
+get_targeted_replay_classification_summary_filename = function(){
+  filename = paste0(processed_data_dir, '/processed_targeted_replay_classification_summary.csv')
+  return(filename)
+}
+
 # Helper functions for loading processed data
 load_processed_data = function(){
- filename =  paste0(processed_data_dir, '/processed_full.csv')
- return(load_file(filename))
+  filename =  get_processed_data_filename()
+  return(load_file(filename))
 }
 load_processed_summary = function(){
- filename =  paste0(processed_data_dir, '/processed_summary.csv')
- return(load_file(filename))
+  filename = get_processed_summary_filename()
+  return(load_file(filename))
 }
 load_processed_summary_after_lineage_analysis = function(){
- filename =  paste0(processed_data_dir, '/processed_summary_after_lineage_analysis.csv')
- return(load_file(filename))
+  filename = get_processed_summary_after_lineage_analysis_filename()
+  return(load_file(filename))
 }
 load_processed_classification = function(){
- filename =  paste0(processed_data_dir, '/processed_classification.csv')
- return(load_file(filename))
+  filename = get_processed_classification_filename()
+  return(load_file(filename))
 }
 load_processed_lineage = function(seed){
- filename =  paste0(processed_data_dir, '/reps/', seed, '/processed_lineage.csv')
- return(load_file(filename))
+  filename = get_processed_lineage_filename(seed)
+  return(load_file(filename))
 }
 load_replay_depth_classification_summary = function(seed, depth){
-  filename = paste0(processed_data_dir, '/reps/', seed, '/depths/', depth, '/processed_classification.csv')
+  filename = get_replay_depth_classification_summary_filename() 
   return(load_file(filename))
 }
 try_load_replay_depth_classification_summary = function(seed, depth){
-  filename = paste0(processed_data_dir, '/reps/', seed, '/depths/', depth, '/processed_classification.csv')
+  filename = get_replay_depth_classification_summary_filename(seed, depth)
   return(try_load_file(filename))
 }
 load_exploratory_replay_classification_summary = function(){
-  filename = paste0(processed_data_dir, '/processed_exploratory_replay_classification_summary.csv')
+  filename = get_exploratory_replay_classification_summary_filename()
+  return(load_file(filename))
+}
+load_target_window_replay_classification_summary = function(){
+  filename = get_target_window_replay_classification_summary_filename()
+  return(load_file(filename))
+}
+load_targeted_replay_classification_summary = function(){
+  filename = get_targeted_replay_classification_summary_filename()
   return(load_file(filename))
 }
 

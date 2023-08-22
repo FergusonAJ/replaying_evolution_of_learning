@@ -14,10 +14,6 @@ seeds_to_extend = c()
 seed = seeds_to_process[1]
 for(seed in seeds_to_process){
   replay_seed_mask = df_replay_classification_summary$seed == seed
-  if(sum(replay_seed_mask & replay_learning_mask) == 0){
-    cat('Warning! Seed', seed, 'has no replays. Run missing exploratory replay script (10) for it instead!\n')
-    next
-  }
   min_depth = min(df_replay_classification_summary[replay_seed_mask & replay_learning_mask,]$depth)
   depth_vec = sort(df_replay_classification_summary[replay_seed_mask & replay_learning_mask,]$depth, decreasing = T)
   threshold_reached = F

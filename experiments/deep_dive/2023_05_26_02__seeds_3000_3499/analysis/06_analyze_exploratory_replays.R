@@ -10,7 +10,7 @@ source('./local_setup.R')
 df_summary = load_processed_summary_after_lineage_analysis()
 
 # Config variables
-process_anyway = F # If true, will re-process existing data
+process_anyway = T # If true, will re-process existing data
 
 # Loop through each seed
 seeds_to_process = get_seeds_to_process()
@@ -104,6 +104,10 @@ for(seed in seeds_to_process){
     df_replay_depth$lineage_classification = lineage_classification 
     df_replay_depth_summary$lineage_classification = lineage_classification
     replay_depth_classification_summary$lineage_classification = lineage_classification
+    lineage_merit_mean = df_lineage[df_lineage$depth == depth,]$merit_mean
+    df_replay_depth$lineage_merit_mean = lineage_merit_mean 
+    df_replay_depth_summary$lineage_merit_mean = lineage_merit_mean
+    replay_depth_classification_summary$lineage_merit_mean = lineage_merit_mean
     
     # Add column for if this entry is looking at learning
     df_replay_depth$is_learning = df_replay_depth$seed_classification == seed_class_learning

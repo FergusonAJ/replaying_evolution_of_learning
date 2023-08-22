@@ -1,6 +1,7 @@
 rm(list = ls())
 
 library(ggplot2)
+source("https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R")
 
 # Local include
 source('./local_setup.R')
@@ -201,3 +202,20 @@ ggplot(df_summary, aes(x = merit_mean)) +
   geom_histogram() + 
   scale_x_continuous(trans = 'log2')
 
+
+df_tmp = data.frame(data = matrix(nrow = 0, ncol = 5))
+df$log_merit = log(df$merit, 2)
+for(seed in unique(df$seed)){
+  seed_mean = mean(df[df$seed == seed,]$log_merit)
+  seed_sd = sd(df[df$seed == seed,]$log_merit)
+  seed_median = median(df[df$seed == seed,]$log_merit)
+  seed_classification = df[df$seed == seed,]$seed_classification[1]
+  df_tmp[nrow(df_tmp) + 1,] = c(seed, seed_classification, seed_mean, seed_median, seed_sd)
+}
+colnames(df_tmp) = c('seed', 'seed_classification', 'seed_mean', 'seed_median', 'seed_sd')
+df_tmp$seed_mean = as.numeric(df_tmp$seed_mean)
+df_tmp$seed_median = as.numeric(df_tmp$seed_median)
+df_tmp$seed_sd = as.numeric(df_tmp$seed_sd)
+
+ggplot(df_tmp, aes(x = seed_mean, seed_sd)) + 
+  geom_point(aes(color = as.factor(seed_classification)))

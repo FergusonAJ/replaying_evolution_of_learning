@@ -18,11 +18,7 @@ for(seed in seeds_to_process){
   replay_seed_mask = df_replay_classification_summary$seed == seed
   missing_depths = c()
   first_learning_depth = df_summary[df_summary$seed == seed,]$first_learning_depth
-  if(sum(replay_seed_mask & replay_learning_mask) == 0){
-    min_depth = first_learning_depth - 200 
-  } else{ 
-    min_depth = min(df_replay_classification_summary[replay_seed_mask & replay_learning_mask,]$depth)
-  }
+  min_depth = min(df_replay_classification_summary[replay_seed_mask & replay_learning_mask,]$depth)
   max_relative_diff = first_learning_depth - min_depth
   for(relative_diff in seq(0, max_relative_diff, 50)){
     depth = first_learning_depth - relative_diff
@@ -46,8 +42,8 @@ for(seed in seeds_to_process){
     slurm_replay_seed_str = paste0(slurm_replay_seed_str, seed)
     # Add entry to depth map 
     slurm_replay_depth_str = paste0(slurm_replay_depth_str, 'DEPTH_MAP[', seed, ']="')
-    for(depth in sort(missing_depths, decreasing = T)){
-      if(depth != max(missing_depths)){
+    for(depth in sort(missing_depths)){
+      if(depth != min(missing_depths)){
         slurm_replay_depth_str = paste0(slurm_replay_depth_str, ' ')
       }
       slurm_replay_depth_str = paste0(slurm_replay_depth_str, depth)

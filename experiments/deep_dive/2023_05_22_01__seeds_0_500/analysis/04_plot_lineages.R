@@ -75,7 +75,7 @@ for(seed in seeds_to_process){
   ggsave(paste0(plot_dir, '/genome_length.png'), width = 8, height = 6, units = 'in')
   
 }
-  
+ 
   ## Plot focal window, if applicable 
   #focal_start = focal_start_map[as.character(seed)]
   #focal_stop = focal_stop_map[as.character(seed)]
