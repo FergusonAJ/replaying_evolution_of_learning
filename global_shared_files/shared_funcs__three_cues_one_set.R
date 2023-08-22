@@ -138,7 +138,10 @@ classify_seeds = function(df){
     #for(seed in unique(df_summary$seed)){
     #  df[df$seed == seed,]$seed_classification = df_summary[df_summary$seed == seed,]$seed_classification
     #}
-    df$seed_classification = apply(df, 1, internal_collect_seed_classification, df_summary)
+    #df$seed_classification = apply(df, 1, internal_collect_seed_classification, df_summary)
+    df = merge(df, df_summary[,c('seed', 'seed_classification')], by='seed')
+    df$seed_classification = df$seed_classification.y
+    df = df[,setdiff(colnames(df), c('seed_classification.x', 'seed_classification.y'))]
   }
   df$seed_classification_factor = factor(df$seed_classification, levels = seed_classifcation_order_vec)
   return(df)
