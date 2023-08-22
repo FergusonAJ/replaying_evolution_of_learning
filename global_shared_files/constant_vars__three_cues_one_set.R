@@ -20,11 +20,11 @@ seed_classifcation_order_vec = c(
 # Seed classification color scheme for all plots
 # Muted qualitative scheme from Paul Tor https://personal.sron.nl/~pault/
 color_map = c( 
-  'Error correction' = '#ee99aa',
-  'Bet-hedged error correction' = '#994455',
   'Learning' = '#6699cc',
   'Bet-hedged learning' = '#004488',
   'Mixed bet hedging' = '#eecc66',
+  'Error correction' = '#ee99aa',
+  'Bet-hedged error correction' = '#994455',
   #'Mixed bet hedging' = '#997700',
   'Other' = '#000000',
   'Low activity' = '#7c7c7c'
