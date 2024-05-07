@@ -1,6 +1,8 @@
 Var num_trials = 100;
 Var cur_genome;
 Var trial_num = 0;
+Var did_repro = "False";
+Var repro_updates = 0;
 Var output_filename = "single_org_fitness.csv";
 Var do_two_step = 0;
 
@@ -43,6 +45,8 @@ fit_file.ADD_COLUMN("one_step_mut_local_seed", "one_step_mut_local_seed" );
 fit_file.ADD_COLUMN("two_step_mut_seed", "two_step_mut_seed" );
 fit_file.ADD_COLUMN("two_step_mut_type", "two_step_mut_type" );
 fit_file.ADD_COLUMN("two_step_mut_local_seed", "two_step_mut_local_seed" );
+fit_file.ADD_COLUMN("did_repro",       "did_repro");
+fit_file.ADD_COLUMN("repro_updates",   "repro_updates");
 
 @START() {
   PRINT("");
@@ -87,7 +91,13 @@ fit_file.ADD_COLUMN("two_step_mut_local_seed", "two_step_mut_local_seed" );
         main_pop.REPLACE_WITH(empty_pop);
         main_pop.INJECT("avida_org", 1);    // Inject organism 
         main_pop.SET_GENOME(0, one_step_genome);
-        scheduler.EVAL(main_pop, 10000, 1); // Evaluate organism
+        Var genome_length = main_pop.CALC_MEAN("genome_length");
+        Var death_update = genome_length * scheduler.death_age;
+        repro_updates = scheduler.EVAL(main_pop, death_update, 1); // Evaluate organism   
+        IF(repro_updates >= (death_update - 1)){ // No repro (-1 for starting at 0)
+          did_repro = "False";
+          fit_file.WRITE();
+        }
         trial_num = trial_num + 1;
       }
       IF(do_two_step > 0){
@@ -143,5 +153,7 @@ fit_file.ADD_COLUMN("two_step_mut_local_seed", "two_step_mut_local_seed" );
 };
 
 @BEFORE_REPRO(){
+  did_repro="True";
+  repro_updates = scheduler.GET_EVAL_UPDATE();
   fit_file.WRITE();
 }
